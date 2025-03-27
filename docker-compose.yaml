@@ -35,7 +35,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root # Add this line to set the root password
-      MYSQL_DATABASE: traversy # Add this to automatically create the 'laravel' database
+      MYSQL_DATABASE: educore # Add this to automatically create the 'laravel' database
       CHARACTER_SET_SERVER: utf8mb4
       COLLATION_SERVER: utf8mb4_general_ci
     volumes:

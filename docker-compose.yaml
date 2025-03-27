@@ -11,7 +11,7 @@ services:
       # - ./docker/nginx/ssl:/etc/nginx/ssl
     ports:
       # - "8088:443"
-      - "8080:80"
+      - "8888:80"
     links:
       - php-fpm
 
@@ -45,7 +45,7 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: always
     ports:
-      - "8084:80"
+      - "8085:80"
     environment:
       MAX_EXECUTION_TIME: 600
       UPLOAD_LIMIT: 800M
@@ -56,16 +56,16 @@ services:
     depends_on:
       - mysql
 
-  node:
-    build:
-      context: .  # <-- Set context to the root
-      dockerfile: docker/node/Dockerfile  # <-- Specify the Dockerfile location
-    restart: always
-    ports:
-      - "5173:5173"
-    volumes:
-      - /app/node_modules
-      - ./:/app
+  # node:
+  #   build:
+  #     context: .  # <-- Set context to the root
+  #     dockerfile: docker/node/Dockerfile  # <-- Specify the Dockerfile location
+  #   restart: always
+  #   ports:
+  #     - "5173:5173"
+  #   volumes:
+  #     - /app/node_modules
+  #     - ./:/app
 
 volumes:
   mysql_data:

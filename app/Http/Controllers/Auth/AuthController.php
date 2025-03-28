@@ -51,6 +51,7 @@ class AuthController extends Controller
         ], 201);
     }
 
+
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
@@ -58,5 +59,30 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Logged out'
         ], 200);
+    }
+
+
+    public function loginAdmin(Request $request)
+    {
+        $fields = $request->validate([
+            'email' => 'required|string|exists:users,email',
+            'password' => 'required|string'
+        ]);
+
+        $user = User::where('email', $fields['email'])->first();
+
+        if (!$user || !Hash::check($fields['password'], $user->password)) {
+            return response()->json([
+                'errors' => [
+                    'email' => ['The provided credentials are incorrect.']
+                ]
+            ], 401);
+        }
+
+        $token = $user->createToken($request->email)->plainTextToken;
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
 }

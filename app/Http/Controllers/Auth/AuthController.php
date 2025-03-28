@@ -13,7 +13,7 @@ class AuthController extends Controller
     {
         $fields = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|string|unique:users,email',
+            'email' => 'required|email|string|unique:users,email',
             'password' => 'required|string|confirmed',
             'role' => 'required|in:admin,student,instructor'
         ]);
@@ -30,7 +30,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $fields = $request->validate([
-            'email' => 'required|string|exists:users,email',
+            'email' => 'required|email|string|exists:users,email',
             'password' => 'required|string'
         ]);
 
@@ -65,7 +65,7 @@ class AuthController extends Controller
     public function loginAdmin(Request $request)
     {
         $fields = $request->validate([
-            'email' => 'required|string|exists:users,email',
+            'email' => 'required|email|string|exists:users,email',
             'password' => 'required|string'
         ]);
 

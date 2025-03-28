@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->enum('role', ['admin', 'student', 'instructor'])->default('student');
+            $table->enum('approve_status', ['initial', 'pending', 'approved', 'rejected'])->default('initial');
             $table->timestamps();
         });
 

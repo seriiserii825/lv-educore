@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('12345678'),
                 'role' => 'student',
                 'approve_status' => 'initial',
+                'image' => '/images/green-man.jpg'
             ],
             [
                 'name' => 'Instructor',
@@ -27,6 +28,7 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('12345678'),
                 'role' => 'instructor',
                 'approve_status' => 'initial',
+                'image' => '/images/green-man.jpg'
             ],
             [
                 'name' => 'Admin',
@@ -34,6 +36,7 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('12345678'),
                 'role' => 'admin',
                 'approve_status' => 'initial',
+                'image' => '/images/green-man.jpg'
             ],
         ];
 

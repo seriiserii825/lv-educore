@@ -20,6 +20,17 @@ return new class extends Migration
             $table->rememberToken();
             $table->enum('role', ['admin', 'student', 'instructor'])->default('student');
             $table->enum('approve_status', ['initial', 'pending', 'approved', 'rejected'])->default('initial');
+            $table->string('image')->default('/images/green-man.jpg');
+            $table->string('document')->nullable();
+            $table->string('headline')->nullable();
+            $table->text('bio')->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('linkedin')->nullable();
+            $table->string('website')->nullable();
+            $table->string('github')->nullable();
+            $table->enum('login_as', ['instructor', 'student'])->nullable();
             $table->timestamps();
         });
 

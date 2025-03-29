@@ -24,7 +24,8 @@ class AuthController extends Controller
         } else {
             $request->validate(['document' => 'required|file|mimes:pdf,doc,docx']);
             $fields['document'] = $this->uploadFile($request->file('document'));
-            $fields['approve_status'] = 'approved';
+            $fields['approve_status'] = 'pending';
+            $fields['role'] = 'student';
         }
 
         $user = User::create($fields);

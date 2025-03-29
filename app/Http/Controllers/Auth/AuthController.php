@@ -4,19 +4,29 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    use FileUpload;
     public function register(Request $request)
     {
+        dd($request->all());
         $fields = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email|string|unique:users,email',
-            'password' => 'required|string|confirmed',
-            'role' => 'required|in:admin,student,instructor'
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'role' => 'required|in:student,instructor',
         ]);
+        if ($request->role == 'student') {
+            $fields['approve_status'] = 'initial';
+        } else {
+            $request->validate(['document' => 'required|file|mimes:pdf,doc,docx']);
+            $fields['document'] = $this->uploadFile($request->file('document'));
+            $fields['approve_status'] = 'approved';
+        }
 
         $user = User::create($fields);
 

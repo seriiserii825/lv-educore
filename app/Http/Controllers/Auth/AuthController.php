@@ -13,7 +13,6 @@ class AuthController extends Controller
     use FileUpload;
     public function register(Request $request)
     {
-        dd($request->all());
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',

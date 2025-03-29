@@ -31,10 +31,11 @@ class AuthController extends Controller
     {
         $fields = $request->validate([
             'email' => 'required|email|string|exists:users,email',
-            'password' => 'required|string'
+            'password' => 'required|string',
+            'role' => 'required|in:role,student,instructor'
         ]);
 
-        $user = User::where('email', $fields['email'])->first();
+        $user = User::where(['email' => $fields['email'], 'role' => $fields['email']])->first();
 
         if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response()->json([

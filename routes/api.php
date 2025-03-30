@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\InstructorRequestController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::get('/users', function () {
+        return User::select('id', 'name', 'email', 'role')->get();
+    });
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/instructor/requests', [InstructorRequestController::class, 'index']);
+    });
+
+    Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {
+        Route::put('/instructor/requests/{user}', [InstructorRequestController::class, 'update']);
     });
 });

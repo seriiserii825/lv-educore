@@ -16,7 +16,7 @@ class InstructorRequestController extends Controller
     {
         $users = User::where('role', 'student')->where(function (Builder $query) {
             $query->where('approve_status', 'pending')->orWhere('approve_status', 'rejected');
-        })->select('id', 'name', 'approve_status', 'document')->get();
+        })->select('id', 'name',  'email', 'approve_status', 'document')->get();
         // $users = User::where('approve_status', 'pending')->orWhere('approve_status', 'rejected')->select('id', 'name', 'approve_status')->get();
         // $users = User::select('id', 'name', 'approve_status')->get();
         return response()->json($users, 200);
@@ -31,6 +31,7 @@ class InstructorRequestController extends Controller
             $user->role = 'instructor';
         }
         $user->approve_status = $request->approve_status;
+        $user->login_as = 'instructor';
         $user->save();
 
         if ($request->approve_status === 'rejected') {

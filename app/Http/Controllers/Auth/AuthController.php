@@ -46,7 +46,17 @@ class AuthController extends Controller
             'role' => 'required|in:admin,student,instructor'
         ]);
 
-        $user = User::where(['email' => $fields['email'], 'role' => $fields['role']])->first();
+        $user = User::where(['email' => $fields['email']])->first();
+
+        if ($fields['role'] == 'student' && $user->login_as === 'instructor') {
+
+            return response()->json([
+                'errors' => [
+                    'email' => ['You are not allowed to login as student, your are instructor.']
+                ]
+            ], 401);
+        }
+
 
         if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response()->json([

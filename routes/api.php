@@ -30,5 +30,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {
         Route::put('/instructor/requests/{user}', [InstructorRequestController::class, 'update']);
+        Route::post('/instructor/requests/{user}', [InstructorRequestController::class, 'becomeInstructor']);
     });
 });

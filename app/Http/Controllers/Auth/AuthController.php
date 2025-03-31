@@ -19,6 +19,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
             'role' => 'required|in:student,instructor',
         ]);
+        $fields['password'] = Hash::make($fields['password']);
         if ($request->role == 'student') {
             $fields['approve_status'] = 'initial';
         } else {
@@ -34,14 +35,14 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => $user,
-            'token' => $token
+            'token' => $token,
         ], 201);
     }
     public function login(Request $request)
     {
         $fields = $request->validate([
             'email' => 'required|email|string|exists:users,email',
-            'password' => 'required|string',
+            'password' => 'required|string|min:6',
             'role' => 'required|in:admin,student,instructor'
         ]);
 
@@ -77,7 +78,7 @@ class AuthController extends Controller
     {
         $fields = $request->validate([
             'email' => 'required|email|string|exists:users,email',
-            'password' => 'required|string'
+            'password' => 'required|string|min:6',
         ]);
 
         $user = User::where('email', $fields['email'])->first();

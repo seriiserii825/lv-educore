@@ -4,13 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class InstructorRequestController extends Controller
 {
     public function index()
     {
-        $users = User::where('approve_status', 'pending')->orWhere('approve_status', 'rejected')->select('id', 'name', 'approve_status')->get();
+        $users = User::where('role', 'student')->where(function (Builder $query) {
+            $query->where('approve_status', 'pending')->orWhere('approve_status', 'rejected');
+        })->select('id', 'name', 'approve_status', 'document')->get();
+        // $users = User::where('approve_status', 'pending')->orWhere('approve_status', 'rejected')->select('id', 'name', 'approve_status')->get();
+        // $users = User::select('id', 'name', 'approve_status')->get();
         return response()->json($users, 200);
     }
 

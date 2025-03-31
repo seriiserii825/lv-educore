@@ -38,6 +38,9 @@ class InstructorRequestEmail extends Mailable
     {
         return new Content(
             view: 'mail.instructor-request-email',
+            with: [
+                'site_url' => config('site_settings.site_url'),
+            ],
         );
     }
 

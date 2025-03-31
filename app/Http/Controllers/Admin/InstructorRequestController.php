@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\InstructorRequestEmail;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class InstructorRequestController extends Controller
 {
@@ -29,6 +31,13 @@ class InstructorRequestController extends Controller
         }
         $user->approve_status = $request->approve_status;
         $user->save();
+
+        if (config('mail_queue.is_queue')) {
+            Mail::to($user->email)->queue(new InstructorRequestEmail($user));
+        } else {
+            Mail::to($user->email)->send(new InstructorRequestEmail($user));
+        }
+
         return response()->json($user, 200);
     }
 }

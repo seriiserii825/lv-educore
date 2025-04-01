@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::put('/profile/{user}', [ProfileController::class, 'update']);
     Route::put('/profile/{user}/update-password', [ProfileController::class, 'updatePassword']);
+    Route::post('/profile/{user}/update-image', [ProfileController::class, 'updateImage']);
 
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/instructor/requests', [InstructorRequestController::class, 'index']);

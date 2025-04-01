@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\InstructorRequestController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,6 +25,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/users', function () {
         return User::select('id', 'name', 'email', 'role')->get();
     });
+
+    Route::put('/profile/{user}', [ProfileController::class, 'update']);
+
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/instructor/requests', [InstructorRequestController::class, 'index']);
     });

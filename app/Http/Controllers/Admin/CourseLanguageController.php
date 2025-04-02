@@ -52,8 +52,9 @@ class CourseLanguageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(CourseLanguage $language)
     {
-        //
+        $language->delete();
+        return response()->json(['message' => 'Course language deleted']);
     }
 }

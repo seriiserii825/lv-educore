@@ -14,10 +14,10 @@ class ProfileController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255|unique:users,email,' . $user->id,
             'headline' => 'nullable|string',
-            'gender' => 'required|in:male,female',
+            'gender' => 'nullable|in:male,female',
             'bio' => 'nullable|string',
             'facebook' => 'nullable|string',
             'twitter' => 'nullable|string',

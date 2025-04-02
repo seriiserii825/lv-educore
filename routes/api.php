@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
-        Route::apiResource('/courses/language', CourseLanguageController::class);
+        Route::apiResource('/courses/languages', CourseLanguageController::class);
     });
 
 

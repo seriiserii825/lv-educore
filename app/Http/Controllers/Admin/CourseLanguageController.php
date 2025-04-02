@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CourseLanguage;
 use Illuminate\Http\Request;
 
 class CourseLanguageController extends Controller
@@ -12,7 +13,8 @@ class CourseLanguageController extends Controller
      */
     public function index()
     {
-        //
+        $course_languages = CourseLanguage::all();
+        return response()->json($course_languages);
     }
 
     /**

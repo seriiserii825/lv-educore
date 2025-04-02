@@ -13,8 +13,13 @@ class CourseLanguageController extends Controller
      */
     public function index()
     {
-        $course_languages = CourseLanguage::all();
+        $course_languages = CourseLanguage::orderBy('updated_at', 'desc')->get();
         return response()->json($course_languages);
+    }
+
+    public function show(CourseLanguage $language)
+    {
+        return response()->json($language);
     }
 
     /**
@@ -22,23 +27,26 @@ class CourseLanguageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:course_languages',
+        ]);
+        $validated['slug'] = \Str::slug($validated['name']);
+        $course_language = CourseLanguage::create($validated);
+        return response()->json($course_language);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, CourseLanguage $language)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:course_languages,name,' . $language->id,
+        ]);
+        $validated['slug'] = \Str::slug($validated['name']);
+        $language->update($validated);
+        return response()->json($language);
     }
 
     /**

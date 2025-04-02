@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseLanguageController;
 use App\Http\Controllers\Admin\InstructorRequestController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
@@ -33,6 +34,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/instructor/requests', [InstructorRequestController::class, 'index']);
     });
+
+
+    Route::group(['middleware' => 'instructor', 'prefix' => 'admin'], function () {
+        Route::apiResource('/courses/language', CourseLanguageController::class);
+    });
+
 
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {
         Route::put('/instructor/requests/{user}', [InstructorRequestController::class, 'update']);

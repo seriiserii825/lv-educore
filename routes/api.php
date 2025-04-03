@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/courses/categories/{category}/subcategories/{subcategory}', [CourseSubcategoryController::class, 'show']);
         Route::post('/courses/categories/{category}/subcategories', [CourseSubcategoryController::class, 'store']);
         Route::put('/courses/categories/{category}/subcategories/{subcategory}', [CourseSubcategoryController::class, 'update']);
+        Route::delete('/courses/categories/{category}/subcategories/{subcategory}', [CourseSubcategoryController::class, 'destroy']);
     });
 
 

@@ -58,4 +58,13 @@ class CourseSubcategoryController extends Controller
         $subcategory->update($validated);
         return response()->json($subcategory, 200);
     }
+    public function destroy(CourseCategory $category, CourseCategory $subcategory)
+    {
+        $subcategory = $category->subcategories()->findOrFail($subcategory->id);
+        if ($subcategory->image) {
+            $this->deleteFile($subcategory->image);
+        }
+        $subcategory->delete();
+        return response()->json(['message' => 'Subcategory deleted successfully'], 200);
+    }
 }

@@ -49,8 +49,9 @@ class CourseLevelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(CourseLevel $level)
     {
-        //
+        $level->delete();
+        return response()->json(['message' => 'Course level deleted'], 200);
     }
 }

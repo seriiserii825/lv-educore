@@ -15,7 +15,8 @@ class CourseCategoryController extends Controller
      */
     public function index()
     {
-        $categories = CourseCategory::orderBy('updated_at', 'desc')->get();
+        // Fetch all categories with their subcategories
+        $categories = CourseCategory::with('subcategories')->whereNull('parent_id')->orderBy('updated_at', 'desc')->get();
         return response()->json($categories);
     }
 

@@ -15,4 +15,9 @@ class CourseCategory extends Model
         'show_at_tranding',
         'status',
     ];
+
+    public function subcategories()
+    {
+        return $this->hasMany(CourseCategory::class, 'parent_id');
+    }
 }

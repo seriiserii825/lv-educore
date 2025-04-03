@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CourseCategoryController;
 use App\Http\Controllers\Admin\CourseLanguageController;
 use App\Http\Controllers\Admin\CourseLevelController;
+use App\Http\Controllers\Admin\CourseSubcategoryController;
 use App\Http\Controllers\Admin\InstructorRequestController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
@@ -42,6 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::apiResource('/courses/languages', CourseLanguageController::class);
         Route::apiResource('/courses/levels', CourseLevelController::class);
         Route::apiResource('/courses/categories', CourseCategoryController::class);
+        Route::get('/courses/categories/{category}/subcategories', [CourseSubcategoryController::class, 'index']);
     });
 
 

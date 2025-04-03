@@ -28,17 +28,24 @@ class CourseLevelController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(CourseLevel $level)
     {
-        //
+        return response()->json($level, 200);
     }
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, CourseLevel $level)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:course_levels,name,' . $level->id,
+        ]);
+        $validated['slug'] = \Str::slug($validated['name']);
+        $level->update($validated);
+        return response()->json($level, 200);
     }
+
     /**
      * Remove the specified resource from storage.
      */

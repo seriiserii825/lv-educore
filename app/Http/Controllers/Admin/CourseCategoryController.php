@@ -27,7 +27,7 @@ class CourseCategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:course_categories,name',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'icon' => 'nullable|string',
             'show_at_tranding' => 'nullable|boolean',
             'status' => 'nullable|boolean',
         ]);
@@ -35,9 +35,6 @@ class CourseCategoryController extends Controller
 
         if ($request->hasFile('image')) {
             $validated['image'] = $this->uploadFile($request->file('image'));
-        }
-        if ($request->hasFile('icon')) {
-            $validated['icon'] = $this->uploadFile($request->file('icon'));
         }
 
         $category = CourseCategory::create($validated);
@@ -60,7 +57,7 @@ class CourseCategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:course_categories,name,' . $category->id,
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'icon' => 'nullable|string',
             'show_at_tranding' => 'nullable|boolean',
             'status' => 'nullable|boolean',
         ]);
@@ -68,9 +65,6 @@ class CourseCategoryController extends Controller
         $validated['slug'] = \Str::slug($validated['name']);
         if ($request->hasFile('image') && $category->image) {
             $validated['image'] = $this->uploadFile($request->file('image'), $category->image);
-        }
-        if ($request->hasFile('icon') && $category->icon) {
-            $validated['icon'] = $this->uploadFile($request->file('icon'), $category->icon);
         }
         $category->update($validated);
         return response()->json($category, 200);
@@ -83,9 +77,6 @@ class CourseCategoryController extends Controller
     {
         if ($category->image) {
             $this->deleteFile($category->image);
-        }
-        if ($category->icon) {
-            $this->deleteFile($category->icon);
         }
         $category->delete();
         return response()->json(['message' => 'Category deleted successfully'], 200);

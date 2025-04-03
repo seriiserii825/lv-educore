@@ -23,7 +23,7 @@ class CourseCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, CourseCategory $category)
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:course_categories,name',

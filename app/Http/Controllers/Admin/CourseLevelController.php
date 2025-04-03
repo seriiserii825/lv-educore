@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CourseLevel;
 use Illuminate\Http\Request;
 
 class CourseLevelController extends Controller
@@ -12,7 +13,8 @@ class CourseLevelController extends Controller
      */
     public function index()
     {
-        //
+        $levels = CourseLevel::orderBy('updated_at', 'desc')->get();
+        return response()->json($levels, 200);
     }
 
     /**

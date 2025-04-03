@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseCategoryController;
 use App\Http\Controllers\Admin\CourseLanguageController;
 use App\Http\Controllers\Admin\CourseLevelController;
 use App\Http\Controllers\Admin\InstructorRequestController;
@@ -40,6 +41,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::apiResource('/courses/languages', CourseLanguageController::class);
         Route::apiResource('/courses/levels', CourseLevelController::class);
+        Route::apiResource('/courses/categories', CourseCategoryController::class);
     });
 
 

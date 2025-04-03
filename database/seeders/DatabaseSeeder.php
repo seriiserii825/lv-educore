@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CourseLanguageSeeder::class,
             CourseLevelSeeder::class,
+            CourseCategorySeeder::class,
         ]);
     }
 }

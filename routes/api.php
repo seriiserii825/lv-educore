@@ -44,7 +44,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::apiResource('/courses/levels', CourseLevelController::class);
         Route::apiResource('/courses/categories', CourseCategoryController::class);
         Route::get('/courses/categories/{category}/subcategories', [CourseSubcategoryController::class, 'index']);
-        Route::post('/courses/categories/{category}/subcategories/create', [CourseSubcategoryController::class, 'store']);
+        Route::get('/courses/categories/{category}/subcategories/{subcategory}', [CourseSubcategoryController::class, 'show']);
+        Route::post('/courses/categories/{category}/subcategories', [CourseSubcategoryController::class, 'store']);
+        Route::put('/courses/categories/{category}/subcategories/{subcategory}', [CourseSubcategoryController::class, 'update']);
     });
 
 

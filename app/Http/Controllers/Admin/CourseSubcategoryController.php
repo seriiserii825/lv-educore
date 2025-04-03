@@ -12,8 +12,13 @@ class CourseSubcategoryController extends Controller
     use FileUpload;
     public function index(CourseCategory $category)
     {
-        $subcategories = $category->subcategories()->get();
+        $subcategories = $category->subcategories()->orderBy('updated_at', 'desc')->get();
         return response()->json($subcategories, 200);
+    }
+    public function show(CourseCategory $category, CourseCategory $subcategory)
+    {
+        $subcategory = $category->subcategories()->findOrFail($subcategory->id);
+        return response()->json($subcategory, 200);
     }
     public function store(Request $request, CourseCategory $category)
     {
@@ -33,5 +38,24 @@ class CourseSubcategoryController extends Controller
 
         $category = CourseCategory::create($validated);
         return response()->json($category, 201);
+    }
+
+    public function update(Request $request, CourseCategory $category, CourseCategory $subcategory)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:course_categories,name,' . $category->id,
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'icon' => 'nullable|string',
+            'show_at_tranding' => 'nullable|boolean',
+            'status' => 'nullable|boolean',
+        ]);
+
+        $validated['slug'] = \Str::slug($validated['name']);
+        if ($request->hasFile('image') && $category->image) {
+            $validated['image'] = $this->uploadFile($request->file('image'), $category->image);
+        }
+        $subcategory = $category->subcategories()->findOrFail($subcategory->id);
+        $subcategory->update($validated);
+        return response()->json($subcategory, 200);
     }
 }

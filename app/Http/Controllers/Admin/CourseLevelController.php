@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use App\Models\CourseLevel;
 use Illuminate\Http\Request;
-
 class CourseLevelController extends Controller
 {
     /**
@@ -16,15 +13,18 @@ class CourseLevelController extends Controller
         $levels = CourseLevel::orderBy('updated_at', 'desc')->get();
         return response()->json($levels, 200);
     }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:course_levels,name',
+        ]);
+        $validated['slug'] = \Str::slug($validated['name']);
+        $level = CourseLevel::create($validated);
+        return response()->json($level, 201);
     }
-
     /**
      * Display the specified resource.
      */
@@ -32,7 +32,6 @@ class CourseLevelController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      */
@@ -40,7 +39,6 @@ class CourseLevelController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      */

@@ -76,6 +76,10 @@ class CourseCategoryController extends Controller
      */
     public function destroy(CourseCategory $category)
     {
+        // Check if the category has subcategories
+        if ($category->subcategories()->exists()) {
+            return response()->json(['message' => 'Cannot delete category with subcategories!!!'], 400);
+        }
         if ($category->image) {
             $this->deleteFile($category->image);
         }

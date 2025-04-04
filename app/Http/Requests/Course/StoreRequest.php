@@ -24,14 +24,15 @@ class StoreRequest extends FormRequest
         $options = [
             'title' => 'required|string|max:255',
             'seo_description' => 'required|string',
-            'demo_video_storage' => 'required|string|in:upload,youtube,vimeo,external_link',
+            'demo_video_storage' => 'required|string',
             'price' => 'required|numeric',
             'discount' => 'required|numeric',
+            'thumbnail' => 'required|image',
         ];
         if ($this->demo_video_storage === 'upload') {
-            $options['thumbnail'] = 'required|file|mimes:mp4|max:102400';
+            $options['video_file'] = 'required|file|mimes:mp4|max:102400';
         } else {
-            $options['demo_video_source'] = 'required|string';
+            $options['video_input'] = 'required|string';
         }
         return $options;
     }

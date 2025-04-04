@@ -12,6 +12,13 @@ use Illuminate\Support\Str;
 class CourseController extends Controller
 {
     use FileUpload;
+
+    public function index()
+    {
+        $courses = Course::where('instructor_id', Auth::id())->get();
+        return response($courses, 200);
+    }
+
     public function store(StoreRequest $request)
     {
         $course = new Course();

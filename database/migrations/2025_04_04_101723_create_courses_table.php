@@ -13,21 +13,22 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('instructor_id')->constrained('users');
-            $table->foreignId('category_id')->nullable();
-            $table->enum('course_type', ['course', 'webinar'])->default('course');
+            // Basic info
             $table->string('title')->unique();
-            $table->string('slug')->unique();
             $table->string('seo_description')->nullable();
-            $table->string('duration')->nullable();
-            $table->string('timezone')->nullable();
             $table->string('thumbnail')->nullable();
             $table->enum('demo_video_storage', ['upload', 'youtube', 'vimeo', 'external_link'])->default('upload');
             $table->string('demo_video_source')->nullable();
-            $table->text('description')->nullable();
-            $table->integer('capacity')->nullable();
             $table->double('price')->default(0);
             $table->double('discount')->default(0);
+            $table->text('description')->nullable();
+            //More info
+            $table->foreignId('instructor_id')->constrained('users');
+            $table->foreignId('category_id')->nullable();
+            $table->enum('course_type', ['course', 'webinar'])->default('course');
+            $table->string('duration')->nullable();
+            $table->string('timezone')->nullable();
+            $table->integer('capacity')->nullable();
             $table->boolean('certificate')->default(1);
             $table->boolean('qna')->default(1);
             $table->text('message_for_review')->nullable();

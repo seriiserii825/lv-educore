@@ -52,8 +52,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::group(['middleware' => 'instructor'], function () {
-        Route::get('/instructor/course', [CourseController::class, 'index']);
-        Route::post('/instructor/course', [CourseController::class, 'store']);
+        Route::get('/instructor/courses', [CourseController::class, 'index']);
+        Route::post('/instructor/courses', [CourseController::class, 'store']);
     });
 
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {

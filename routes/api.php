@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CourseSubcategoryController;
 use App\Http\Controllers\Admin\InstructorRequestController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Instructor\CourseController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/instructor/requests', [InstructorRequestController::class, 'index']);
+        Route::post('/instructor/course', [CourseController::class, 'store']);
     });
 
 

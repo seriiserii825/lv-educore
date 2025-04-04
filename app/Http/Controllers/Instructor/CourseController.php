@@ -15,7 +15,7 @@ class CourseController extends Controller
 
     public function index()
     {
-        $courses = Course::where('instructor_id', Auth::id())->get();
+        $courses = Course::where('instructor_id', Auth::id())->orderBy('updated_at', 'desc')->get();
         return response($courses, 200);
     }
 

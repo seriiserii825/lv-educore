@@ -37,7 +37,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/instructor/requests', [InstructorRequestController::class, 'index']);
-        Route::post('/instructor/course', [CourseController::class, 'store']);
     });
 
 
@@ -52,6 +51,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('/courses/categories/{category}/subcategories/{subcategory}', [CourseSubcategoryController::class, 'destroy']);
     });
 
+    Route::group(['middleware' => 'instructor'], function () {
+        Route::post('/instructor/course', [CourseController::class, 'store']);
+    });
 
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {
         Route::put('/instructor/requests/{user}', [InstructorRequestController::class, 'update']);

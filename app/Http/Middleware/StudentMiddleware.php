@@ -20,7 +20,7 @@ class StudentMiddleware
         $user = $request->route('user'); // Ensure route model binding is working
 
         if (!$user instanceof User) {
-            return response()->json(['message' => 'User not found'], 404);
+            return response()->json(['message' => 'User with role student found'], 404);
         }
 
         // Check if the user has role 'student'

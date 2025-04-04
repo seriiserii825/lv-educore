@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Course\StoreRequest;
 use App\Models\Course;
 use App\Traits\FileUpload;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
     use FileUpload;
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $course = new Course();
         $course->fill($request->validated());
@@ -25,10 +27,6 @@ class CourseController extends Controller
         $course->instructor_id = Auth::id();
         $course->slug = Str::slug($request['title']);
         $course->save();
-
-        // // Create the course
-        // $course = Course::create($validatedData);
-        //
-        // return response()->json($course, 201);
+        return response($course, 201);
     }
 }

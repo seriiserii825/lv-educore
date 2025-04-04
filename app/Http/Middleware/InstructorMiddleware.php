@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\User;
 
-class AdminMiddleware
+class InstructorMiddleware
 {
     /**
      * Handle an incoming request.
@@ -20,14 +20,14 @@ class AdminMiddleware
         $user = $request->user(); // Ensure route model binding is working
 
         if (!$user instanceof User) {
-            return response()->json(['message' => 'User with role admin not found'], 404);
+            return response()->json(['message' => 'User with role instructor found'], 404);
         }
 
         // Check if the user has role 'student'
-        if ($user->role === 'admin') {
+        if ($user->role === 'instructor') {
             return $next($request);
         }
 
-        return response()->json(['message' => 'Unauthorized - Not a Admin'], 403);
+        return response()->json(['message' => 'Unauthorized - Not a Instructor'], 403);
     }
 }

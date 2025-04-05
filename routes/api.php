@@ -54,8 +54,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['middleware' => 'instructor'], function () {
         Route::get('/instructor/courses', [CourseController::class, 'index']);
         Route::get('/instructor/courses/{course}', [CourseController::class, 'show']);
+        Route::get('/instructor/courses/{course}/step2', [CourseController::class, 'step2']);
         Route::post('/instructor/courses', [CourseController::class, 'store']);
         Route::post('/instructor/courses/{course}', [CourseController::class, 'updateStep1']);
+        Route::post('/instructor/courses/{course}/step2', [CourseController::class, 'updateStep2']);
     });
 
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {

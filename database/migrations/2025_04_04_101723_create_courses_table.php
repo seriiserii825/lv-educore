@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             // Basic info
             $table->string('title')->unique();
+            $table->string('slug')->unique();
             $table->string('seo_description')->nullable();
             $table->string('thumbnail')->nullable();
             $table->enum('demo_video_storage', ['upload', 'youtube', 'vimeo', 'external_link'])->default('upload');

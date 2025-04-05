@@ -19,6 +19,11 @@ class CourseController extends Controller
         return response($courses, 200);
     }
 
+    public function show(Course $course)
+    {
+        return response()->json($course, 200);
+    }
+
     public function store(StoreRequest $request)
     {
         $course = new Course();

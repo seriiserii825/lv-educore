@@ -11,7 +11,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,24 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $options = [
+            'title' => 'required|string|max:255|unique:courses,title,' . $this->course->id,
+            'seo_description' => 'required|string',
+            'demo_video_storage' => 'required|string',
+            'price' => 'required|numeric',
+            'discount' => 'required|numeric',
         ];
+        // thumbnail can be a image or string
+        if ($this->hasFile('thumbnail')) {
+            $options['thumbnail'] = 'required|image';
+        } else {
+            $options['thumbnail'] = 'required|string';
+        }
+        if ($this->demo_video_storage === 'upload') {
+            $options['video_file'] = 'nullable|file|mimes:mp4|max:102400';
+        } else {
+            $options['video_input'] = 'required|string';
+        }
+        return $options;
     }
 }

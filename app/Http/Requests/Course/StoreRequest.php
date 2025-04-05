@@ -22,7 +22,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         $options = [
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:courses,title',
             'seo_description' => 'required|string',
             'demo_video_storage' => 'required|string',
             'price' => 'required|numeric',

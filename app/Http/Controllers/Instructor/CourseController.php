@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Course\StoreRequest;
+use App\Http\Requests\Course\UpdateRequest;
 use App\Models\Course;
 use App\Traits\FileUpload;
 use Illuminate\Support\Facades\Auth;
@@ -40,5 +41,23 @@ class CourseController extends Controller
         $course->slug = Str::slug($request['title']);
         $course->save();
         return response($course, 201);
+    }
+
+    public function updateStep1(UpdateRequest $request, Course $course)
+    {
+        $course->fill($request->validated());
+        if ($request->hasFile('thumbnail')) {
+            $course->thumbnail = $this->uploadFile($request->file('thumbnail'));
+        }else{
+            $course->thumbnail = $request['thumbnail'];
+        }
+        if ($request->hasFile('video_file')) {
+            $course->demo_video_source = $this->uploadFile($request->file('video_file'));
+        } else {
+            $course->demo_video_source = $request['video_input'];
+        }
+        $course->slug = Str::slug($request['title']);
+        $course->save();
+        return response($course, 200);
     }
 }

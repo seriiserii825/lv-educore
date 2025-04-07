@@ -14,9 +14,14 @@ class CourseChapterController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, CourseChapter $course)
     {
-        //
+        $instructor_id = Auth::user()->id;
+        $course_chapters = CourseChapter::where([
+            'course_id' => $course->id,
+            'instructor_id' => $instructor_id,
+        ])->get();
+        return response()->json($course_chapters);
     }
 
     /**

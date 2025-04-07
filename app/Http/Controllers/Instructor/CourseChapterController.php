@@ -14,13 +14,16 @@ class CourseChapterController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, CourseChapter $course)
+    public function index(Course $course)
     {
         $instructor_id = Auth::user()->id;
         $course_chapters = CourseChapter::where([
             'course_id' => $course->id,
             'instructor_id' => $instructor_id,
         ])->get();
+        if ($course_chapters->isEmpty()) {
+            return response()->json(['message' => 'No chapters found'], 404);
+        }
         return response()->json($course_chapters);
     }
 
@@ -56,8 +59,16 @@ class CourseChapterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Course $course, CourseChapter $chapter)
     {
-        //
+        $instructor_id = Auth::user()->id;
+        if ($chapter->instructor_id != $instructor_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        if ($chapter->course_id != $course->id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        $chapter->delete();
+        return response()->json(['message' => 'Chapter deleted successfully'], 200);
     }
 }

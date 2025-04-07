@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseChapter\StoreRequest;
+use App\Http\Requests\CourseChapter\UpdateRequest;
 use App\Models\Course;
 use App\Models\CourseChapter;
 use Illuminate\Http\Request;
@@ -51,9 +52,14 @@ class CourseChapterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, Course $course, CourseChapter $chapter)
     {
-        //
+        $instructor_id = Auth::user()->id;
+        if ($chapter->instructor_id != $instructor_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        $chapter->update($request->validated());
+        return response()->json($chapter, 200);
     }
 
     /**

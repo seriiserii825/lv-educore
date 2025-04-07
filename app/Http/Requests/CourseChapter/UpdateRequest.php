@@ -3,6 +3,7 @@
 namespace App\Http\Requests\CourseChapter;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,18 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $chapterId = $this->route('chapter'); // Get chapter id from route
+
         return [
-            //
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('course_chapters', 'title')->ignore($chapterId),
+            ],
+            'course_id' => 'required|exists:courses,id',
+            'order' => 'nullable|integer',
+            'status' => 'nullable|boolean',
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\CourseChapter;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -22,7 +23,12 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255|unique:course_chapters,title',
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('course_chapters', 'title')->ignore($this->chapter),
+            ],
             'course_id' => 'required|exists:courses,id',
             'order' => 'nullable|integer',
             'status' => 'nullable|boolean',

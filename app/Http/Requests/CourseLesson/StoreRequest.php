@@ -11,7 +11,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,9 +22,10 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         $options = [
-            'title' => 'required|string|max:255|unique:courses,title',
+            'title' => 'required|string|max:255|unique:lessons,title',
             'description' => 'required|string',
-            'file_path' => 'required|string',
+            'video_file' => 'nullable|string',
+            'video_input' => 'required|string',
             'storage' => 'required|string',
             'file_type' => 'required|in:video,audio,text,pdf',
             'volume' => 'nullable|integer',
@@ -33,7 +34,7 @@ class StoreRequest extends FormRequest
             'order' => 'nullable|integer',
             'is_preview' => 'nullable|boolean',
             'status' => 'nullable|boolean',
-            'lesson_type' => 'required|in:lesson,live',
+            'lesson_type' => 'nullable|in:lesson,live',
         ];
         if ($this->demo_video_storage === 'upload') {
             $options['video_file'] = 'required|file|mimes:mp4|max:102400';

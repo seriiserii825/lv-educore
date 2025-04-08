@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Instructor\CourseChapterController;
 use App\Http\Controllers\Instructor\CourseController;
+use App\Http\Controllers\Instructor\CourseLessonControlller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/instructor/courses/{course}/step2', [CourseController::class, 'updateStep2']);
         // course chapters
         Route::apiResource('/instructor/course/{course}/chapters', CourseChapterController::class);
+        Route::apiResource('/instructor/course/{course}/lessons', CourseLessonControlller::class);
     });
 
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {

@@ -19,9 +19,9 @@ return new class extends Migration
             $table->foreignId('instructor_id')->constrained('users');
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->foreignId('chapter_id')->constrained('course_chapters')->onDelete('cascade');
-            $table->string('file_path')->nullable();
-            $table->enum('storage', ['upload', 'youtube', 'vimeo', 'external_link'])->default('upload');
             $table->enum('file_type', ['video', 'audio', 'text', 'pdf'])->default('video');
+            $table->enum('storage', ['upload', 'youtube', 'vimeo', 'external_link'])->default('upload');
+            $table->string('file_path')->nullable();
             $table->integer('volume')->default(0);
             $table->integer('duration')->default(0);
             $table->boolean('downloadable')->default(0);

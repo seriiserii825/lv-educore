@@ -13,4 +13,9 @@ class CourseChapter extends Model
         'order',
         'status',
     ];
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class, 'chapter_id', 'id');
+    }
 }

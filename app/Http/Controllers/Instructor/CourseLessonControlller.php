@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\CourseChapter;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,9 @@ class CourseLessonControlller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Course $course)
+    public function index(Course $course, CourseChapter $chapter)
     {
-        $lessons = Lesson::where('course_id', $course->id)->get();
+        $lessons = Lesson::where(['course_id' => $course->id, 'chapter_id' => $chapter->id])->get();
         return response()->json($lessons);
     }
 

@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/instructor/courses/{course}/step2', [CourseController::class, 'updateStep2']);
         // course chapters
         Route::apiResource('/instructor/course/{course}/chapters', CourseChapterController::class);
-        Route::apiResource('/instructor/course/{course}/lessons', CourseLessonControlller::class);
+        Route::apiResource('/instructor/course/{course}/chapters/{chapter}/lessons', CourseLessonControlller::class);
     });
 
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {

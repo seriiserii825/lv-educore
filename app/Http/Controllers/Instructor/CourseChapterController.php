@@ -7,7 +7,6 @@ use App\Http\Requests\CourseChapter\StoreRequest;
 use App\Http\Requests\CourseChapter\UpdateRequest;
 use App\Models\Course;
 use App\Models\CourseChapter;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CourseChapterController extends Controller
@@ -21,7 +20,7 @@ class CourseChapterController extends Controller
         $course_chapters = CourseChapter::where([
             'course_id' => $course->id,
             'instructor_id' => $instructor_id,
-        ])->get();
+        ])->with('lessons')->orderBy('order')->get();
         if ($course_chapters->isEmpty()) {
             return response()->json(['message' => 'No chapters found'], 404);
         }

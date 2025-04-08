@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CourseCategoryController;
+use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\CourseLanguageController;
 use App\Http\Controllers\Admin\CourseLevelController;
 use App\Http\Controllers\Admin\CourseSubcategoryController;
@@ -51,6 +52,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/courses/categories/{category}/subcategories', [CourseSubcategoryController::class, 'store']);
         Route::put('/courses/categories/{category}/subcategories/{subcategory}', [CourseSubcategoryController::class, 'update']);
         Route::delete('/courses/categories/{category}/subcategories/{subcategory}', [CourseSubcategoryController::class, 'destroy']);
+        Route::get('/courses', [AdminCourseController::class, 'index']);
+        Route::put('/courses/{course}/approved', [AdminCourseController::class, 'updateApproved']);
     });
 
     Route::group(['middleware' => 'instructor'], function () {

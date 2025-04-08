@@ -29,4 +29,9 @@ class Course extends Model
         'course_level_id',
         'course_language_id'
     ];
+
+    public function instructor()
+    {
+        return $this->belongsTo(User::class, 'instructor_id');
+    }
 }

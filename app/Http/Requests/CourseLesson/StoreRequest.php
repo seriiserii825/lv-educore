@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
             'description' => 'required|string',
             'video_file' => 'nullable|string',
             'video_input' => 'required|string',
-            'storage' => 'required|string',
+            'storage' => 'required|in:upload,youtube,vimeo,external_link',
             'file_type' => 'required|in:video,audio,text,pdf',
             'volume' => 'nullable|integer',
             'duration' => 'nullable|integer',

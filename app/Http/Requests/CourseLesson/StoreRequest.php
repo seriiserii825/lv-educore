@@ -24,8 +24,6 @@ class StoreRequest extends FormRequest
         $options = [
             'title' => 'required|string|max:255|unique:lessons,title',
             'description' => 'required|string',
-            'video_file' => 'nullable|string',
-            'video_input' => 'required|string',
             'storage' => 'required|in:upload,youtube,vimeo,external_link',
             'file_type' => 'required|in:video,audio,text,pdf',
             'volume' => 'nullable|integer',
@@ -36,7 +34,7 @@ class StoreRequest extends FormRequest
             'status' => 'nullable|boolean',
             'lesson_type' => 'nullable|in:lesson,live',
         ];
-        if ($this->demo_video_storage === 'upload') {
+        if ($this->storage === 'upload') {
             $options['video_file'] = 'required|file|mimes:mp4|max:102400';
         } else {
             $options['video_input'] = 'required|string';

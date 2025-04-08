@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Course\StoreRequest;
 use App\Http\Requests\Course\UpdateRequest;
 use App\Http\Requests\Course\UpdateStep2Request;
+use App\Http\Requests\Course\UpdateStep3Request;
 use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\CourseLanguage;
@@ -79,6 +80,12 @@ class CourseController extends Controller
     }
 
     public function updateStep2(UpdateStep2Request $request, Course $course)
+    {
+        $course->fill($request->validated());
+        $course->save();
+        return response($course, 200);
+    }
+    public function updateStep3(UpdateStep3Request $request, Course $course)
     {
         $course->fill($request->validated());
         $course->save();

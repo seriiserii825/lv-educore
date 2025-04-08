@@ -2,12 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Traits\TSeeder;
 use Illuminate\Database\Seeder;
 
 class LessonSeeder extends Seeder
 {
+    use TSeeder;
     public function run(): void
     {
+        $this->truncateTable('lessons');
         $lessons = [
             [
                 'title' => 'lesson 1',

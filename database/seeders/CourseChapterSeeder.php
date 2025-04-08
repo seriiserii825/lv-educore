@@ -3,15 +3,19 @@
 namespace Database\Seeders;
 
 use App\Models\CourseChapter;
+use App\Traits\TSeeder;
 use Illuminate\Database\Seeder;
 
 class CourseChapterSeeder extends Seeder
 {
+    use TSeeder;
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+
+        $this->truncateTable('course_chapters');
         $chapters = [
             [
                 'title' => 'Introduction to Programming',

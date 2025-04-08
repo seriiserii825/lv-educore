@@ -3,16 +3,18 @@
 namespace Database\Seeders;
 
 use App\Models\CourseLevel;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Traits\TSeeder;
 use Illuminate\Database\Seeder;
 
 class CourseLevelSeeder extends Seeder
 {
+    use TSeeder;
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+        $this->truncateTable('course_levels');
         $levels = [
             [
                 'name' => 'Beginner',

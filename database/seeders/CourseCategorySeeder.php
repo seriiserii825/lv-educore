@@ -3,16 +3,18 @@
 namespace Database\Seeders;
 
 use App\Models\CourseCategory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Traits\TSeeder;
 use Illuminate\Database\Seeder;
 
 class CourseCategorySeeder extends Seeder
 {
+    use TSeeder;
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+        $this->truncateTable('course_categories');
         $categories = [
             [
                 'name' => 'Development',

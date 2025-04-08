@@ -3,16 +3,19 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Traits\TSeeder;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
+    use TSeeder;
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+        $this->truncateTable('users');
         $users = [
             [
                 'name' => 'Student',

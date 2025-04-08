@@ -16,6 +16,6 @@ class CourseChapter extends Model
 
     public function lessons()
     {
-        return $this->hasMany(Lesson::class, 'chapter_id', 'id');
+        return $this->hasMany(Lesson::class, 'chapter_id', 'id')->orderBy('order', 'asc');
     }
 }

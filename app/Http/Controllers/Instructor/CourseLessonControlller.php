@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseLesson\StoreRequest;
+use App\Http\Requests\CourseLesson\UpdateRequest;
 use App\Models\Course;
 use App\Models\CourseChapter;
 use App\Models\Lesson;
@@ -55,9 +56,23 @@ class CourseLessonControlller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRequest $request, Course $course, CourseChapter $chapter, Lesson $lesson)
     {
-        //
+        $lesson->fill($request->validated());
+        if ($request->hasFile('video_file')) {
+            if ($lesson->file_path) {
+                $this->deleteFile($lesson->file_path);
+            }
+            $lesson->file_path = $this->uploadFile($request->file('video_file'));
+        } else {
+            $lesson->file_path = $request['video_input'];
+        }
+        $lesson->instructor_id = Auth::id();
+        $lesson->course_id = $course->id;
+        $lesson->chapter_id = $chapter->id;
+        $lesson->slug = str($request['title'])->slug();
+        $lesson->save();
+        return response()->json($lesson, 200);
     }
 
     /**

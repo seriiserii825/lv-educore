@@ -27,7 +27,8 @@ class CoursePageController extends Controller
             'lessons',
             'category',
             'level',
-            'language'
+            'language',
+            'chapters'
         ])
             ->where(['is_approved' => 'approved', 'status' => 'active'])
             ->where('slug', $slug)

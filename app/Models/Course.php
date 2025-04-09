@@ -52,4 +52,9 @@ class Course extends Model
     {
         return $this->belongsTo(CourseLanguage::class, 'course_language_id');
     }
+
+    public function chapters()
+    {
+        return $this->hasMany(CourseChapter::class, 'course_id');
+    }
 }

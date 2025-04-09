@@ -20,10 +20,17 @@ class CoursePageController extends Controller
 
     public function show(string $slug)
     {
-        $course = Course::with(['instructor', 'lessons'])
+        $course = Course::with([
+            'instructor' => function ($query) {
+                $query->withCount('courses');
+            },
+            'lessons',
+            'category'
+        ])
             ->where(['is_approved' => 'approved', 'status' => 'active'])
             ->where('slug', $slug)
             ->firstOrFail();
+
         return response()->json($course, 200);
     }
 }

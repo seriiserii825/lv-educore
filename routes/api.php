@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CourseSubcategoryController;
 use App\Http\Controllers\Admin\InstructorRequestController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Front\CoursePageController;
 use App\Http\Controllers\Instructor\CourseChapterController;
 use App\Http\Controllers\Instructor\CourseController;
 use App\Http\Controllers\Instructor\CourseLessonControlller;
@@ -18,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/home', function () {
     return response()->json(['message' => 'Hello World!'], 200);
 });
+
+// courses
+Route::get('/courses', [CoursePageController::class, 'index']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

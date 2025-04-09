@@ -18,24 +18,24 @@ class CourseChapterSeeder extends Seeder
         $this->truncateTable('course_chapters');
         $chapters = [
             [
-                'title' => 'Introduction to Programming',
+                'title' => 'Easy Skills',
                 'course_id' => 1,
                 'instructor_id' => 2,
                 'order' => 1,
                 'status' => 1,
             ],
             [
-                'title' => 'Advanced Programming Concepts',
+                'title' => 'Advanced Skills',
                 'course_id' => 1,
                 'instructor_id' => 2,
                 'order' => 2,
                 'status' => 1,
             ],
             [
-                'title' => 'Data Structures and Algorithms',
+                'title' => 'Master Skills',
                 'course_id' => 1,
                 'instructor_id' => 2,
-                'order' => 1,
+                'order' => 3,
                 'status' => 1,
             ],
         ];

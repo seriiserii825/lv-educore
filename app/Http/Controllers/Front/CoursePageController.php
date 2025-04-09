@@ -25,7 +25,9 @@ class CoursePageController extends Controller
                 $query->withCount('courses');
             },
             'lessons',
-            'category'
+            'category',
+            'level',
+            'language'
         ])
             ->where(['is_approved' => 'approved', 'status' => 'active'])
             ->where('slug', $slug)

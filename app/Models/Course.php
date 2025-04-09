@@ -43,4 +43,13 @@ class Course extends Model
     {
         return $this->belongsTo(CourseCategory::class, 'category_id');
     }
+    public function level()
+    {
+        return $this->belongsTo(CourseLevel::class, 'course_level_id');
+    }
+
+    public function language()
+    {
+        return $this->belongsTo(CourseLanguage::class, 'course_language_id');
+    }
 }

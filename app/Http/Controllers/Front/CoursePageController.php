@@ -17,4 +17,13 @@ class CoursePageController extends Controller
             ->paginate(9);
         return response()->json($courses, 200);
     }
+
+    public function show(string $slug)
+    {
+        $course = Course::with(['instructor', 'lessons'])
+            ->where(['is_approved' => 'approved', 'status' => 'active'])
+            ->where('slug', $slug)
+            ->firstOrFail();
+        return response()->json($course, 200);
+    }
 }

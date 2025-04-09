@@ -22,6 +22,7 @@ Route::get('/home', function () {
 
 // courses
 Route::get('/courses', [CoursePageController::class, 'index']);
+Route::get('/courses/{course}', [CoursePageController::class, 'show']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

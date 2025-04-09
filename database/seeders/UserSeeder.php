@@ -26,12 +26,20 @@ class UserSeeder extends Seeder
                 'image' => '/images/green-man.jpg'
             ],
             [
-                'name' => 'Instructor',
+                'name' => 'Laravel Daily',
                 'email' => 'instructor@gmail.com',
                 'password' => bcrypt('12345678'),
                 'role' => 'instructor',
                 'approve_status' => 'initial',
-                'image' => '/images/green-man.jpg'
+                'image' => '/images/povilas-corop.jpg'
+            ],
+            [
+                'name' => 'Net Ninja',
+                'email' => 'net-ninja@gmail.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'instructor',
+                'approve_status' => 'initial',
+                'image' => '/images/net-ninja.jpg'
             ],
             [
                 'name' => 'Admin',

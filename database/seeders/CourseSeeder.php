@@ -30,7 +30,22 @@ class CourseSeeder extends Seeder
                 'instructor_id' => 2,
                 'course_level_id' => 1,
                 'course_language_id' => 1,
-            ]
+            ],
+            [
+                'title' => 'Nuxt 3 Tutorial',
+                'slug' => 'nuxt-3-tutorial',
+                'seo_description' => "In this Nuxt 3 crash course, you'll learn what Nuxt is & how to use it to make web applications with Vue. In this lesson, I'll talk about what Nuxt.js is.",
+                'thumbnail' => '/images/nuxt3.jpg',
+                'demo_video_storage' => 'youtube',
+                'demo_video_source' => 'https://www.youtube.com/watch?v=GBdO5myZNsQ&list=PL4cUxeGkcC9haQlqdCQyYmL_27TesCGPC',
+                'price' => 300,
+                'discount' => 286,
+                'description' => "In this Nuxt 3 crash course, you'll learn what Nuxt is & how to use it to make web applications with Vue. In this lesson, I'll talk about what Nuxt.js is.",
+                'category_id' => 1,
+                'instructor_id' => 3,
+                'course_level_id' => 1,
+                'course_language_id' => 1,
+            ],
         ];
 
         foreach ($courses as $course) {

@@ -17,15 +17,15 @@ class CourseSeeder extends Seeder
         $this->truncateTable('courses');
         $courses = [
             [
-                'title' => 'Course Title',
-                'slug' => 'course-title',
-                'seo_description' => 'Course SEO Description',
-                'thumbnail' => 'thumbnail.jpg',
+                'title' => 'Test Your Laravel Skills',
+                'slug' => 'test-your-laravel-skills',
+                'seo_description' => "How well do you know Laravel Routing features? Let's test your knowledge.",
+                'thumbnail' => '/images/laravel.png',
                 'demo_video_storage' => 'youtube',
-                'demo_video_source' => 'demo_video.mp4',
-                'price' => 100,
-                'discount' => 10,
-                'description' => 'Course Description',
+                'demo_video_source' => 'https://www.youtube.com/watch?v=pENlD3izA3Q&list=PLdXLsjL7A9k2-4sY2rLgB89MQQK0QeHvs',
+                'price' => 600,
+                'discount' => 500,
+                'description' => "How well do you know Laravel Routing features? Let's test your knowledge.",
                 'category_id' => 1,
                 'instructor_id' => 2,
                 'course_level_id' => 1,

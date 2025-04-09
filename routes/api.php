@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('/courses/categories/{category}/subcategories/{subcategory}', [CourseSubcategoryController::class, 'destroy']);
         Route::get('/courses', [AdminCourseController::class, 'index']);
         Route::put('/courses/{course}/approved', [AdminCourseController::class, 'updateApproved']);
+        Route::put('/courses/{course}/status', [AdminCourseController::class, 'updateStatus']);
     });
 
     Route::group(['middleware' => 'instructor'], function () {

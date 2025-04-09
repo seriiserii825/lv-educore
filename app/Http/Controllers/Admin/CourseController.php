@@ -23,4 +23,14 @@ class CourseController extends Controller
         $course->save();
         return response()->json(['message' => 'Course approval status updated successfully.']);
     }
+    public function updateStatus(Request $request, Course $course)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:active,inactive,draft',
+        ]);
+
+        $course->status = $validated['status'];
+        $course->save();
+        return response()->json(['message' => 'Course status updated successfully.']);
+    }
 }

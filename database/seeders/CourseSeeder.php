@@ -30,6 +30,8 @@ class CourseSeeder extends Seeder
                 'instructor_id' => 2,
                 'course_level_id' => 1,
                 'course_language_id' => 1,
+                'is_approved' => 'approved',
+                'status' => 'active'
             ],
             [
                 'title' => 'Nuxt 3 Tutorial',
@@ -45,6 +47,8 @@ class CourseSeeder extends Seeder
                 'instructor_id' => 3,
                 'course_level_id' => 1,
                 'course_language_id' => 1,
+                'is_approved' => 'approved',
+                'status' => 'active'
             ],
         ];
 

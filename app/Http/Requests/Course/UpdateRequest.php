@@ -25,8 +25,8 @@ class UpdateRequest extends FormRequest
             'title' => 'required|string|max:255|unique:courses,title,' . $this->course->id,
             'seo_description' => 'required|string',
             'demo_video_storage' => 'required|string',
-            'price' => 'required|numeric',
-            'discount' => 'required|numeric',
+            'price' => 'nullable|numeric',
+            'discount' => 'nullable|numeric',
         ];
         // thumbnail can be a image or string
         if ($this->hasFile('thumbnail')) {

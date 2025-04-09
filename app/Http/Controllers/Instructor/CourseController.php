@@ -55,6 +55,8 @@ class CourseController extends Controller
         } else {
             $course->demo_video_source = $request['video_input'];
         }
+        $course->price = $request['price'] ?? 0;
+        $course->discount = $request['discount'] ?? 0;
         $course->instructor_id = Auth::id();
         $course->slug = Str::slug($request['title']);
         $course->save();
@@ -74,6 +76,8 @@ class CourseController extends Controller
         } else {
             $course->demo_video_source = $request['video_input'];
         }
+        $course->price = $request['price'] ?? 0;
+        $course->discount = $request['discount'] ?? 0;
         $course->slug = Str::slug($request['title']);
         $course->save();
         return response($course, 200);

@@ -38,6 +38,20 @@ class CourseChapterSeeder extends Seeder
                 'order' => 3,
                 'status' => 1,
             ],
+            [
+                'title' => 'Nuxt 3 Basics',
+                'course_id' => 2,
+                'instructor_id' => 3,
+                'order' => 1,
+                'status' => 1,
+            ],
+            [
+                'title' => 'Nuxt 3 Advanced',
+                'course_id' => 2,
+                'instructor_id' => 3,
+                'order' => 1,
+                'status' => 1,
+            ],
         ];
         foreach ($chapters as $chapter) {
             CourseChapter::create($chapter);

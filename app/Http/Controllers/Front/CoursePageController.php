@@ -12,7 +12,7 @@ class CoursePageController extends Controller
     {
         $courses = Course::with(['instructor'])
             ->withCount('lessons') // Correct way to count lessons
-            ->where('is_approved', 'approved')
+            ->where(['is_approved' => 'approved', 'status' => 'active'])
             ->orderBy('created_at', 'desc')
             ->paginate(9);
         return response()->json($courses, 200);

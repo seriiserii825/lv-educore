@@ -31,7 +31,10 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('12345678'),
                 'role' => 'instructor',
                 'approve_status' => 'initial',
-                'image' => '/images/povilas-corop.jpg'
+                'image' => '/images/povilas-corop.jpg',
+                'headline' => 'Laravel Daily',
+                'facebook' => 'https://www.facebook.com/laraveldaily',
+                'twitter' => 'https://twitter.com/laraveldaily',
             ],
             [
                 'name' => 'Net Ninja',
@@ -39,7 +42,13 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('12345678'),
                 'role' => 'instructor',
                 'approve_status' => 'initial',
-                'image' => '/images/net-ninja.jpg'
+                'image' => '/images/net-ninja.jpg',
+                'headline' => 'Youtube IT Channel',
+                'bio' => 'The Net Ninja is a YouTube channel that offers free web development tutorials.',
+                'website' => 'https://www.thenetninja.co.uk/',
+                'facebook' => 'https://www.facebook.com/thenetninja',
+                'twitter' => 'https://twitter.com/netninja',
+                'linkedin' => 'https://www.linkedin.com/in/netninja/',
             ],
             [
                 'name' => 'Admin',
@@ -51,6 +60,8 @@ class UserSeeder extends Seeder
             ],
         ];
 
-        User::insert($users);
+        foreach ($users as $user) {
+            User::create($user);
+        }
     }
 }

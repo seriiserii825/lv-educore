@@ -12,7 +12,7 @@ class CartController extends Controller
     public function index()
     {
         $user_id = Auth::id();
-        $cart_items = Cart::where('user_id', $user_id)->with('course')->get();
+        $cart_items = Cart::where('user_id', $user_id)->with('course.instructor')->get();
 
         if ($cart_items->isEmpty()) {
             return response()->json(['message' => 'Cart is empty'], 404);

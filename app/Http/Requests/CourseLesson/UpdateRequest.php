@@ -42,7 +42,7 @@ class UpdateRequest extends FormRequest
             'lesson_type' => 'nullable|in:lesson,live',
         ];
         if ($this->storage === 'upload') {
-            $options['video_file'] = 'nullable|file|mimes:mp4|max:20480'; // 20MB
+            $options['video_file'] = 'nullable|file|mimes:mp4|max:30480'; // 20MB
         } else {
             $options['video_input'] = 'required|string';
         }

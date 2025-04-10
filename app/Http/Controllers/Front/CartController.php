@@ -40,4 +40,14 @@ class CartController extends Controller
         ]);
         return response()->json(['message' => 'Course added to cart'], 201);
     }
+    public function destroy(Cart $cart)
+    {
+        $user_id = Auth::id();
+        if ($cart->user_id !== $user_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $cart->delete();
+        return response()->json(['message' => 'Course removed from cart'], 200);
+    }
 }

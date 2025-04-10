@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CourseSubcategoryController;
 use App\Http\Controllers\Admin\InstructorRequestController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CoursePageController;
 use App\Http\Controllers\Instructor\CourseChapterController;
 use App\Http\Controllers\Instructor\CourseController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Instructor\CourseLessonControlller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/home', function () {
     return response()->json(['message' => 'Hello World!'], 200);
@@ -76,8 +78,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::apiResource('/instructor/courses/{course}/chapters/{chapter}/lessons', CourseLessonControlller::class);
     });
 
+    Route::group(['middleware' => 'student'], function () {
+        Route::post('/cart', [CartController::class, 'store']);
+    });
+
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {
         Route::put('/instructor/requests/{user}', [InstructorRequestController::class, 'update']);
         Route::post('/instructor/requests/{user}', [InstructorRequestController::class, 'becomeInstructor']);
     });
+
 });
+

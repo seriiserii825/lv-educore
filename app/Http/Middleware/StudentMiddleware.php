@@ -16,11 +16,11 @@ class StudentMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Get the user from route parameters
-        $user = $request->route('user'); // Ensure route model binding is working
+        // if user is from route or auth
+        $user = $request->route('user') ?? $request->user();
 
         if (!$user instanceof User) {
-            return response()->json(['message' => 'User with role student found'], 404);
+            return response()->json(['message' => 'User with role student not found'], 404);
         }
 
         // Check if the user has role 'student'

@@ -15,7 +15,7 @@ class LessonSeeder extends Seeder
             [
                 'title' => "Let's Test Your Laravel Routing Skills: Complete 12 Tasks",
                 'slug' => 'lets-test-your-laravel-routing-skills-complete-12-tasks',
-                'description' => '',
+                'description' => 'introduction to the course',
                 'file_type' => 'video',
                 'storage' => 'youtube',
                 'file_path' => 'https://www.youtube.com/watch?v=pENlD3izA3Q&list=PLdXLsjL7A9k2-4sY2rLgB89MQQK0QeHvs&index=1',
@@ -26,7 +26,7 @@ class LessonSeeder extends Seeder
             [
                 'title' => "Let's Test Your Laravel Blade Skills: Complete 8 Tasks",
                 'slug' => 'lets-test-your-laravel-blade-skills-complete-8-tasks',
-                'description' => '',
+                'description' => 'introduction to the course',
                 'file_type' => 'video',
                 'storage' => 'youtube',
                 'file_path' => 'https://www.youtube.com/watch?v=P8s7UHuUhbg&list=PLdXLsjL7A9k2-4sY2rLgB89MQQK0QeHvs&index=2',
@@ -37,7 +37,7 @@ class LessonSeeder extends Seeder
             [
                 'title' => 'Test Your Laravel Auth Skills: 7 Tasks to Complete',
                 'slug' => 'test-your-laravel-auth-skills-7-tasks-to-complete',
-                'description' => '',
+                'description' => 'introduction to the course',
                 'file_type' => 'video',
                 'storage' => 'youtube',
                 'file_path' => 'https://www.youtube.com/watch?v=v_3NmwtN_S0&list=PLdXLsjL7A9k2-4sY2rLgB89MQQK0QeHvs&index=3',
@@ -48,7 +48,7 @@ class LessonSeeder extends Seeder
             [
                 'title' => 'Test Your Laravel Migrations Skills: 10 Tasks to Complete',
                 'slug' => 'test-your-laravel-migrations-skills-10-tasks-to-complete',
-                'description' => '',
+                'description' => 'introduction to the course',
                 'file_type' => 'video',
                 'storage' => 'youtube',
                 'file_path' => 'https://www.youtube.com/watch?v=tPU1hNKI_lc&list=PLdXLsjL7A9k2-4sY2rLgB89MQQK0QeHvs&index=4',
@@ -59,7 +59,7 @@ class LessonSeeder extends Seeder
             [
                 'title' => 'Test Your Eloquent Basic Skills: 11 Tasks to Complete',
                 'slug' => 'test-your-eloquent-basic-skills-11-tasks-to-complete',
-                'description' => '',
+                'description' => 'introduction to the course',
                 'file_type' => 'video',
                 'storage' => 'youtube',
                 'file_path' => 'https://www.youtube.com/watch?v=AmvLs9sRSH8&list=PLdXLsjL7A9k2-4sY2rLgB89MQQK0QeHvs&index=5',
@@ -81,7 +81,7 @@ class LessonSeeder extends Seeder
             [
                 'title' => 'Test Your Laravel Validation Skills: Complete 9 Tasks',
                 'slug' => 'test-your-laravel-validation-skills-complete-9-tasks',
-                'description' => '',
+                'description' => 'introduction to the course',
                 'file_type' => 'video',
                 'storage' => 'youtube',
                 'file_path' => 'https://www.youtube.com/watch?v=3ihjumeOMV4&list=PLdXLsjL7A9k2-4sY2rLgB89MQQK0QeHvs&index=7',
@@ -92,7 +92,7 @@ class LessonSeeder extends Seeder
             [
                 'title' => 'Test Your Laravel File Upload Skills: Complete 7 Tasks',
                 'slug' => 'test-your-laravel-file-upload-skills-complete-7-tasks',
-                'description' => '',
+                'description' => 'introduction to the course',
                 'file_type' => 'video',
                 'storage' => 'youtube',
                 'file_path' => 'https://www.youtube.com/watch?v=_SrQRnOx3q8&list=PLdXLsjL7A9k2-4sY2rLgB89MQQK0QeHvs&index=8',
@@ -103,7 +103,7 @@ class LessonSeeder extends Seeder
             [
                 'title' => 'Nuxt 3 Crash Course #2 - Creating a Nuxt App',
                 'slug' => 'nuxt-3-crash-course-#2---creating-a-nuxt-app',
-                'description' => '',
+                'description' => 'introduction to the course',
                 'file_type' => 'video',
                 'storage' => 'youtube',
                 'file_path' => 'https://www.youtube.com/watch?v=thHPEotZVdA&list=PL4cUxeGkcC9haQlqdCQyYmL_27TesCGPC&index=2',
@@ -114,7 +114,7 @@ class LessonSeeder extends Seeder
             [
                 'title' => 'Nuxt 3 Crash Course #3 - Adding Pages',
                 'slug' => 'nuxt-3-crash-course-3---adding-pages',
-                'description' => '',
+                'description' => 'introduction to the course',
                 'file_type' => 'video',
                 'storage' => 'youtube',
                 'file_path' => 'https://www.youtube.com/watch?v=ovJfnoqUBk8&list=PL4cUxeGkcC9haQlqdCQyYmL_27TesCGPC&index=3',
@@ -125,7 +125,7 @@ class LessonSeeder extends Seeder
             [
                 'title' => 'Nuxt 3 Crash Course #8 - Fetching Data',
                 'slug' => 'nuxt-3-crash-course-8---fetching-data',
-                'description' => '',
+                'description' => 'introduction to the course',
                 'file_type' => 'video',
                 'storage' => 'youtube',
                 'file_path' => 'https://www.youtube.com/watch?v=tGhMaMIYRiI&list=PL4cUxeGkcC9haQlqdCQyYmL_27TesCGPC&index=8',

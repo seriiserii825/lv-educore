@@ -35,7 +35,7 @@ Route::post('/admin/login', [AuthController::class, 'loginAdmin']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
-        return $request->user()->load('cart');
+        return $request->user();
         // return $request->user();
     });
     Route::get('/users', function () {
@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::group(['middleware' => 'student'], function () {
+        Route::get('/cart', [CartController::class, 'index']);
         Route::post('/cart', [CartController::class, 'store']);
     });
 

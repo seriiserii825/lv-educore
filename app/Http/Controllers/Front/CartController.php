@@ -6,10 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
+    public function index()
+    {
+        $user_id = Auth::id();
+        $cart_items = Cart::where('user_id', $user_id)->with('course')->get();
+
+        if ($cart_items->isEmpty()) {
+            return response()->json(['message' => 'Cart is empty'], 404);
+        }
+
+        return response()->json($cart_items, 200);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

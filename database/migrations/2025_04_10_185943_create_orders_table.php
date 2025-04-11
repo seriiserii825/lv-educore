@@ -21,8 +21,11 @@ return new class extends Migration
             $table->boolean('has_coupon')->default(false);
             $table->string('coupon_code')->nullable();
             $table->double('coupon_amount')->nullable();
-            $table->string('transaction_id');
+            $table->string('transaction_id')->nullable();
             $table->string('payment_method');
+            $table->string('company');
+            $table->string('address');
+            $table->string('phone');
             $table->timestamps();
         });
     }

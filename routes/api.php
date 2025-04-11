@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CoursePageController;
+use App\Http\Controllers\Front\OrderController;
 use App\Http\Controllers\Instructor\CourseChapterController;
 use App\Http\Controllers\Instructor\CourseController;
 use App\Http\Controllers\Instructor\CourseLessonControlller;
@@ -83,6 +84,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/cart', [CartController::class, 'index']);
         Route::post('/cart', [CartController::class, 'store']);
         Route::delete('/cart/{cart}', [CartController::class, 'destroy']);
+        Route::post('/order', [OrderController::class, 'store']);
     });
 
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {

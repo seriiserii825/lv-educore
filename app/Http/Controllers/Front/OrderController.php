@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function index()
+    {
+        $orders = Order::with('customer')->get();
+        return response()->json($orders);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -30,7 +36,7 @@ class OrderController extends Controller
         } else {
             $order->paid_amount = $request->total_amount;
         }
-        $order->status = 'pending';
+        $order->status = 'approved';
         $order->save();
 
         $cart_items = Cart::where('user_id', $request->buyer_id)->get();

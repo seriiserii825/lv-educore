@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('invoice_id');
             $table->foreignId('buyer_id')->constrained('users')->onDelete('cascade');
-            $table->enum('status', ['pending', 'completed', 'canceled'])->default('pending');
+            $table->enum('status', ['pending', 'approved'])->default('pending');
             $table->double('total_amount');
             $table->double('paid_amount');
             $table->boolean('has_coupon')->default(false);

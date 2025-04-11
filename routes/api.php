@@ -64,6 +64,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/courses', [AdminCourseController::class, 'index']);
         Route::put('/courses/{course}/approved', [AdminCourseController::class, 'updateApproved']);
         Route::put('/courses/{course}/status', [AdminCourseController::class, 'updateStatus']);
+
+        Route::get('/orders', [OrderController::class, 'index']);
     });
 
     Route::group(['middleware' => 'instructor'], function () {

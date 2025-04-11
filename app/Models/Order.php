@@ -21,4 +21,9 @@ class Order extends Model
         'address',
         'phone'
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(User::class, 'buyer_id');
+    }
 }

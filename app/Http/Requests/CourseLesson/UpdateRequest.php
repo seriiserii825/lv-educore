@@ -30,7 +30,6 @@ class UpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique('course_chapters', 'title')->ignore($lesson_id),
             ],
-            'description' => 'required|string',
             'storage' => 'required|in:upload,youtube,vimeo,external_link',
             'file_type' => 'required|in:video,audio,text,pdf',
             'volume' => 'nullable|integer',

@@ -8,6 +8,7 @@ class Course extends Model
 {
     protected $fillable = [
         'title',
+        'description',
         'seo_description',
         'thumbnail',
         'demo_video_storage',

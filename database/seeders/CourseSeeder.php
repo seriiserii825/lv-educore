@@ -19,6 +19,7 @@ class CourseSeeder extends Seeder
             [
                 'title' => 'Test Your Laravel Skills',
                 'slug' => 'test-your-laravel-skills',
+                'description' => "How well do you know Laravel Routing features? Let's test your knowledge.",
                 'seo_description' => "How well do you know Laravel Routing features? Let's test your knowledge.",
                 'thumbnail' => '/images/laravel.png',
                 'demo_video_storage' => 'youtube',
@@ -36,6 +37,7 @@ class CourseSeeder extends Seeder
             [
                 'title' => 'Nuxt 3 Tutorial',
                 'slug' => 'nuxt-3-tutorial',
+                'description' => "In this Nuxt 3 crash course, you'll learn what Nuxt is & how to use it to make web applications with Vue. In this lesson, I'll talk about what Nuxt.js is.",
                 'seo_description' => "In this Nuxt 3 crash course, you'll learn what Nuxt is & how to use it to make web applications with Vue. In this lesson, I'll talk about what Nuxt.js is.",
                 'thumbnail' => '/images/nuxt3.jpg',
                 'demo_video_storage' => 'youtube',

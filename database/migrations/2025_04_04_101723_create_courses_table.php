@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('demo_video_source')->nullable();
             $table->double('price')->default(0);
             $table->double('discount')->default(0);
-            $table->text('description')->nullable();
+            $table->text('description');
             //More info
             $table->foreignId('instructor_id')->constrained('users');
             $table->foreignId('category_id')->nullable();

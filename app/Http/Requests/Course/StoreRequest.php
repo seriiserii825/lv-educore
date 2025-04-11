@@ -23,6 +23,7 @@ class StoreRequest extends FormRequest
     {
         $options = [
             'title' => 'required|string|max:255|unique:courses,title',
+            'description' => 'required|string',
             'seo_description' => 'required|string',
             'demo_video_storage' => 'required|string',
             'price' => 'required|numeric',

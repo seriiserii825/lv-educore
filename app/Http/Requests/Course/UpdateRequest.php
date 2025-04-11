@@ -23,7 +23,7 @@ class UpdateRequest extends FormRequest
     {
         $options = [
             'title' => 'required|string|max:255|unique:courses,title,' . $this->course->id,
-            'seo' => 'required|string',
+            'description' => 'required|string',
             'seo_description' => 'required|string',
             'demo_video_storage' => 'required|string',
             'price' => 'nullable|numeric',

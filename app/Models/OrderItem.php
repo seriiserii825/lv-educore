@@ -12,4 +12,9 @@ class OrderItem extends Model
         'qty',
         'price'
     ];
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }

@@ -57,4 +57,9 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
     }
+    public function show(Order $order)
+    {
+        $my_order = Order::with(['customer', 'orderItems.course.instructor'])->find($order->id);
+        return response()->json($my_order, 200);
+    }
 }

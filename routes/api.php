@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/orders', [OrderController::class, 'index']);
         Route::get('/orders/{order}', [OrderController::class, 'show']);
 
+        Route::get('/settings', [SettingsController::class, 'index']);
         Route::post('/settings', [SettingsController::class, 'store']);
     });
 

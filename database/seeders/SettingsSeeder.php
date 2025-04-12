@@ -3,16 +3,17 @@
 namespace Database\Seeders;
 
 use App\Models\Settings;
+use App\Traits\TSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SettingsSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    use TSeeder;
+
     public function run(): void
     {
+        $this->truncateTable('settings');
         $settings = [
             'site_name' => 'My Website',
             'phone' => '123-456-7890',

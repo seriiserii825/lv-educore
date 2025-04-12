@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CourseLevelController;
 use App\Http\Controllers\Admin\CourseSubcategoryController;
 use App\Http\Controllers\Admin\InstructorRequestController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CoursePageController;
@@ -67,6 +68,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::get('/orders', [OrderController::class, 'index']);
         Route::get('/orders/{order}', [OrderController::class, 'show']);
+
+        Route::post('/settings', [SettingsController::class, 'store']);
     });
 
     Route::group(['middleware' => 'instructor'], function () {

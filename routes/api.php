@@ -88,6 +88,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/cart', [CartController::class, 'store']);
         Route::delete('/cart/{cart}', [CartController::class, 'destroy']);
         Route::post('/order', [OrderController::class, 'store']);
+        Route::get('/order/{course}', [OrderController::class, 'hasCourseInOrderItems']);
     });
 
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {

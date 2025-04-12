@@ -42,7 +42,7 @@ class OrderController extends Controller
         $cart_items = Cart::where('user_id', $request->buyer_id)->get();
         foreach ($cart_items as $item) {
             $order_item = new OrderItem();
-            $order_item->course_id = $item->id;
+            $order_item->course_id = $item->course_id;
             $order_item->order_id = $order->id;
             $order_item->qty = 1;
             $course = Course::where('id', $item->course_id)->first();
@@ -51,8 +51,8 @@ class OrderController extends Controller
             }
             $course_price = $course->discount ?? $course->price;
             $order_item->price = $course_price;
-            $order_item->save();
             $item->delete();
+            $order_item->save();
         }
 
         return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
@@ -61,5 +61,18 @@ class OrderController extends Controller
     {
         $my_order = Order::with(['customer', 'orderItems.course.instructor'])->find($order->id);
         return response()->json($my_order, 200);
+    }
+
+    public function hasCourseInOrderItems(Course $course)
+    {
+        $order = Order::whereHas('orderItems', function ($query) use ($course) {
+            $query->where('course_id', $course->id);
+        })->first();
+
+        if ($order) {
+            return response()->json(['message' => 'Course is in order items', 'order' => $order], 200);
+        } else {
+            return response()->json(['message' => 'Course is not in order items', 'status' => 1], 200);
+        }
     }
 }

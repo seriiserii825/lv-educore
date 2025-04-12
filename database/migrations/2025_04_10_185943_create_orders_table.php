@@ -23,9 +23,6 @@ return new class extends Migration
             $table->double('coupon_amount')->nullable();
             $table->string('transaction_id')->nullable();
             $table->string('payment_method');
-            $table->string('company');
-            $table->string('address');
-            $table->string('phone');
             $table->timestamps();
         });
     }

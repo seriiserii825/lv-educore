@@ -24,8 +24,6 @@ class OrderController extends Controller
             'total_amount' => 'required|numeric',
             'payment_method' => 'required|string',
             'paid_amount' => 'nullable|numeric',
-            'company' => 'required|string',
-            'address' => 'required|string',
         ]);
 
         $order = new Order();

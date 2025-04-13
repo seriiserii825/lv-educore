@@ -16,6 +16,7 @@ use App\Http\Controllers\Instructor\CourseChapterController;
 use App\Http\Controllers\Instructor\CourseController;
 use App\Http\Controllers\Instructor\CourseLessonControlller;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
+use App\Http\Controllers\Student\EnrollmentController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -95,7 +96,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/order', [OrderController::class, 'store']);
         Route::get('/order/{course}', [OrderController::class, 'hasCourseInOrderItems']);
         Route::group(['prefix' => 'student'], function () {
-            Route::get('/courses', [StudentCourseController::class, 'index']);
+            Route::get('/enrollments', [EnrollmentController::class, 'index']);
         });
     });
 

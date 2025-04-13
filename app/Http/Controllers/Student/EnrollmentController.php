@@ -9,7 +9,7 @@ class EnrollmentController extends Controller
 {
     public function index()
     {
-        $courses = Enrollment::with('course')
+        $courses = Enrollment::with(['course','instructor'])
             ->where('user_id', auth()->id())
             ->where('has_access', true)
             ->get();

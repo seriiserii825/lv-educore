@@ -94,13 +94,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('/cart/{cart}', [CartController::class, 'destroy']);
         Route::post('/order', [OrderController::class, 'store']);
         Route::get('/order/{course}', [OrderController::class, 'hasCourseInOrderItems']);
-        Route::get('/courses', [StudentCourseController::class, 'index']);
+        Route::group(['prefix' => 'student'], function () {
+            Route::get('/courses', [StudentCourseController::class, 'index']);
+        });
     });
 
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {
         Route::put('/instructor/requests/{user}', [InstructorRequestController::class, 'update']);
         Route::post('/instructor/requests/{user}', [InstructorRequestController::class, 'becomeInstructor']);
     });
-
 });
-

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Course;
+use App\Models\Enrollment;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -49,6 +50,12 @@ class OrderController extends Controller
             }
             $course_price = $course->discount ?? $course->price;
             $order_item->price = $course_price;
+            Enrollment::create([
+                'user_id' => $request->buyer_id,
+                'instructor_id' => $course->instructor_id,
+                'course_id' => $item->course_id,
+                'has_access' => true,
+            ]);
             $item->delete();
             $order_item->save();
         }

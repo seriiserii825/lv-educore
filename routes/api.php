@@ -15,6 +15,7 @@ use App\Http\Controllers\Front\OrderController;
 use App\Http\Controllers\Instructor\CourseChapterController;
 use App\Http\Controllers\Instructor\CourseController;
 use App\Http\Controllers\Instructor\CourseLessonControlller;
+use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -93,6 +94,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('/cart/{cart}', [CartController::class, 'destroy']);
         Route::post('/order', [OrderController::class, 'store']);
         Route::get('/order/{course}', [OrderController::class, 'hasCourseInOrderItems']);
+        Route::get('/courses', [StudentCourseController::class, 'index']);
     });
 
     Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {

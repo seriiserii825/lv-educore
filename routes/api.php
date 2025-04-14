@@ -97,6 +97,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/order/{course}', [OrderController::class, 'hasCourseInOrderItems']);
         Route::group(['prefix' => 'student'], function () {
             Route::get('/enrollments', [EnrollmentController::class, 'index']);
+            Route::get('/course/{slug}', [EnrollmentController::class, 'show']);
         });
     });
 

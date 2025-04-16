@@ -20,7 +20,7 @@ class EnrollmentController extends Controller
     }
     public function show(string $slug)
     {
-        $course = Course::where('slug', $slug)->with(['chapters'])->firstOrFail();
+        $course = Course::where('slug', $slug)->with(['chapters.lessons'])->firstOrFail();
         if (Enrollment::where('user_id', Auth::user()->id)->where('course_id', $course->id)->exists()) {
             return response()->json($course, 200);
         } else {

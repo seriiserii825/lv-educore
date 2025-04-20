@@ -49,11 +49,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('/profile/{user}/update-password', [ProfileController::class, 'updatePassword']);
     Route::post('/profile/{user}/update-image', [ProfileController::class, 'updateImage']);
 
-    Route::group(['prefix' => 'admin'], function () {
-        Route::get('/instructor/requests', [InstructorRequestController::class, 'index']);
-    });
-
-
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::apiResource('/courses/languages', CourseLanguageController::class);
         Route::apiResource('/courses/levels', CourseLevelController::class);
@@ -72,6 +67,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::get('/settings', [SettingsController::class, 'index']);
         Route::post('/settings', [SettingsController::class, 'store']);
+
+        Route::get('/instructor/requests', [InstructorRequestController::class, 'index']);
+        Route::put('/instructor/requests/{user}', [InstructorRequestController::class, 'update']);
     });
 
     Route::group(['middleware' => 'instructor'], function () {
@@ -98,11 +96,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/enrollments', [EnrollmentController::class, 'index']);
             Route::get('/course/{slug}', [EnrollmentController::class, 'show']);
             Route::get('/enrollments/get-video', [EnrollmentController::class, 'getVideo']);
+            Route::post('/requests/{user}', [InstructorRequestController::class, 'becomeInstructor']);
         });
-    });
-
-    Route::group(['middleware' => 'student', 'prefix' => 'admin'], function () {
-        Route::put('/instructor/requests/{user}', [InstructorRequestController::class, 'update']);
-        Route::post('/instructor/requests/{user}', [InstructorRequestController::class, 'becomeInstructor']);
     });
 });

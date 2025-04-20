@@ -34,21 +34,21 @@ class ProfileController extends Controller
     public function updatePassword(Request $request, User $user)
     {
         $validated = $request->validate([
-            'current_password' => 'required|string|min:6',
+            'new_password' => 'required|string|min:6',
             'password' => 'required|string|min:6|confirmed',
         ]);
         // Check if the current password is correct
-        if ($validated['current_password'] && !Hash::check($validated['current_password'], $user->password)) {
+        if ($validated['password'] && !Hash::check($validated['password'], $user->password)) {
             return response()->json([
                 'errors' => [
-                    'current_password' => ['The provided password does not match our records.']
+                    'password' => ['The provided password does not match our records.']
                 ]
             ], 401);
         }
 
         // update password
         if ($validated['password']) {
-            $validated['password'] = Hash::make($validated['password']);
+            $validated['password'] = Hash::make($validated['new_password']);
         }
 
         $user->update($validated);

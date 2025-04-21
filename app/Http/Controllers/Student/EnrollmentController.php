@@ -29,21 +29,21 @@ class EnrollmentController extends Controller
             return response()->json(['message' => 'You are not enrolled in this course.'], 403);
         }
     }
-    public function getVideo(Request $request)
+
+    public function getVideo(Course $course, Lesson $lesson)
     {
-        $request->validate([
-            'course_id' => 'required|exists:courses,id',
-            'lesson_id' => 'required|exists:lessons,id',
-        ]);
+        // Check if the user is enrolled in the course
+        $enrollment = Enrollment::where('user_id', Auth::user()->id)
+            ->where('course_id', $course->id)
+            ->first();
 
-        $lesson = Lesson::where('id', $request->lesson_id)
-            ->where('course_id', $request->course_id)
-            ->firstOrFail();
+        if (!$enrollment || !$enrollment->has_access) {
+            return response()->json(['message' => 'You do not have access to this lesson.'], 403);
+        }
 
+        // Logic to get the video URL or file path
         $file_path = $lesson->file_path;
 
-        return response()->json([
-            'file_path' => $file_path,
-        ], 200);
+        return response()->json(['file_path' => $file_path], 200);
     }
 }

@@ -81,7 +81,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/instructor/courses/{course}', [CourseController::class, 'updateStep1']);
         Route::post('/instructor/courses/{course}/step2', [CourseController::class, 'updateStep2']);
         Route::post('/instructor/courses/{course}/step3', [CourseController::class, 'updateStep3']);
-        // course chapters
         Route::apiResource('/instructor/courses/{course}/chapters', CourseChapterController::class);
         Route::post('/instructor/courses/{course}/chapters/{chapter}/order', [CourseChapterController::class, 'orderLessons']);
         Route::apiResource('/instructor/courses/{course}/chapters/{chapter}/lessons', CourseLessonControlller::class);
@@ -95,8 +94,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/order/{course}', [OrderController::class, 'hasCourseInOrderItems']);
         Route::group(['prefix' => 'student'], function () {
             Route::get('/enrollments', [EnrollmentController::class, 'index']);
-            Route::get('/course/{slug}', [EnrollmentController::class, 'show']);
-            Route::get('/enrollments/get-video', [EnrollmentController::class, 'getVideo']);
+            Route::get('/enrollments/{course}/get-video/{lesson}', [EnrollmentController::class, 'getVideo']);
+            Route::get('/enrollments/{slug}', [EnrollmentController::class, 'show']);
             Route::post('/requests/{user}', [InstructorRequestController::class, 'becomeInstructor']);
         });
     });

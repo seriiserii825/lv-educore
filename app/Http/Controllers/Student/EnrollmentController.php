@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Lesson;
+use App\Models\WatchHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,8 +24,16 @@ class EnrollmentController extends Controller
     public function show(string $slug)
     {
         $course = Course::where('slug', $slug)->with(['chapters.lessons', 'lessons'])->firstOrFail();
+        $watch_history = WatchHistory::where('user_id', Auth::user()->id)
+            ->where('course_id', $course->id)
+            ->get();
         if (Enrollment::where('user_id', Auth::user()->id)->where('course_id', $course->id)->exists()) {
-            return response()->json($course, 200);
+            return response()->json([
+                'course' => $course,
+                'chapter_id' => $watch_history->pluck('chapter_id'),
+                'lesson_id' => $watch_history->pluck('lesson_id'),
+                'is_completed' => $watch_history->pluck('is_completed'),
+            ], 200);
         } else {
             return response()->json(['message' => 'You are not enrolled in this course.'], 403);
         }

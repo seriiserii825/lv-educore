@@ -17,6 +17,7 @@ use App\Http\Controllers\Instructor\CourseController;
 use App\Http\Controllers\Instructor\CourseLessonControlller;
 use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Http\Controllers\Student\EnrollmentController;
+use App\Http\Controllers\Student\WatchHistoryController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -97,6 +98,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/enrollments/{course}/get-video/{lesson}', [EnrollmentController::class, 'getVideo']);
             Route::get('/enrollments/{slug}', [EnrollmentController::class, 'show']);
             Route::post('/requests/{user}', [InstructorRequestController::class, 'becomeInstructor']);
+            Route::post('/watch-history', [WatchHistoryController::class, 'store']);
         });
     });
 });

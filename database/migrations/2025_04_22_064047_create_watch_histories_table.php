@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('watch_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('course_id');
+            $table->foreignId('course_id')->contstrained('courses');
             $table->foreignId('chapter_id')->constrained('course_chapters');
-            $table->foreignId('lesson_id');
+            $table->foreignId('lesson_id')->constrained('lessons');
             $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });

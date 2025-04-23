@@ -98,6 +98,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/enrollments/{course}/get-video/{lesson}', [EnrollmentController::class, 'getVideo']);
             Route::get('/enrollments/{slug}', [EnrollmentController::class, 'show']);
             Route::post('/requests/{user}', [InstructorRequestController::class, 'becomeInstructor']);
+            Route::get('/watch-history/{course}', [WatchHistoryController::class, 'index']);
             Route::post('/watch-history', [WatchHistoryController::class, 'store']);
         });
     });

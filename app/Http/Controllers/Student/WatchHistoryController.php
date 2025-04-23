@@ -3,12 +3,21 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\WatchHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class WatchHistoryController extends Controller
 {
+    public function index(Course $course)
+    {
+        $watch_history = WatchHistory::where('user_id', Auth::id())
+            ->where('course_id', $course->id)->get();
+
+        return response()->json($watch_history, 200);
+    }
+
     public function store(Request $request)
     {
         // Validate the request

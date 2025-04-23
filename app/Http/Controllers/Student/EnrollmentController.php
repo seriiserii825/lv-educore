@@ -28,11 +28,32 @@ class EnrollmentController extends Controller
             ->where('course_id', $course->id)
             ->get();
         if (Enrollment::where('user_id', Auth::user()->id)->where('course_id', $course->id)->exists()) {
+            $history_chapters = $watch_history->pluck('chapter_id')->unique();
+            $history_lessons = $watch_history->pluck('lesson_id')->unique();
+            $chapter_lessons = $course->chapters->map(function ($chapter) use ($history_chapters, $history_lessons) {
+                $current_chapter_lessons = [];
+                if ($history_chapters->contains($chapter->id)) {
+                    foreach ($chapter->lessons as $lesson) {
+                        if ($history_lessons->contains($lesson->id)) {
+                            $current_chapter_lessons[] = [
+                                'id' => $lesson->id,
+                                'is_completed' => WatchHistory::where('user_id', Auth::user()->id)
+                                    ->where('course_id', $lesson->course_id)
+                                    ->where('chapter_id', $lesson->chapter_id)
+                                    ->where('lesson_id', $lesson->id)
+                                    ->first()
+                                    ?->is_completed,
+                            ];
+                        }                    }
+                }
+                return [
+                    'chapter' => $chapter->id,
+                    'lessons' => $current_chapter_lessons,
+                ];
+            });
             return response()->json([
                 'course' => $course,
-                'chapter_id' => $watch_history->pluck('chapter_id'),
-                'lesson_id' => $watch_history->pluck('lesson_id'),
-                'is_completed' => $watch_history->pluck('is_completed'),
+                'chapter_lessons' => $chapter_lessons,
             ], 200);
         } else {
             return response()->json(['message' => 'You are not enrolled in this course.'], 403);

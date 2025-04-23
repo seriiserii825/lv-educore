@@ -10,14 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class WatchHistoryController extends Controller
 {
-    public function index(Course $course)
-    {
-        $watch_history = WatchHistory::where('user_id', Auth::id())
-            ->where('course_id', $course->id)->get();
-
-        return response()->json($watch_history, 200);
-    }
-
     public function store(Request $request)
     {
         // Validate the request
@@ -28,17 +20,27 @@ class WatchHistoryController extends Controller
             'is_completed' => 'boolean'
         ]);
 
-        WatchHistory::updateOrCreate(
-            [
-                'user_id' => Auth::id(),
+        // check if lesson_id exists in the table
+        $lesson_id = WatchHistory::where('lesson_id', $request->lesson_id)->first();
+        // if exists update, else create
+        if ($lesson_id) {
+            $lesson = WatchHistory::where('lesson_id', $request->lesson_id)->first();
+            if ($lesson) {
+                $lesson->update([
+                    'is_completed' => $request->is_completed ? 1 : 0,
+                ]);
+            }
+        }else{
+            $lesson = WatchHistory::create([
+                'user_id' => Auth::user()->id,
                 'course_id' => $request->course_id,
                 'chapter_id' => $request->chapter_id,
                 'lesson_id' => $request->lesson_id,
-                'is_completed' => $request->is_completed,
-            ]
-        );
-
+                'is_completed' => $request->is_completed ? 1 : 0,
+            ]);
+        }
         return response()->json([
+            'is_completed' => $request->is_completed ? 1 : 0,
             'message' => 'Watch history updated successfully'
         ], 200);
     }

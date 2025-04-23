@@ -21,7 +21,7 @@ class CourseChapterController extends Controller
         $course_chapters = CourseChapter::where([
             'course_id' => $course->id,
             'instructor_id' => $instructor_id,
-        ])->with('lessons')->orderBy('order')->get();
+        ])->with('lessons')->get();
         if ($course_chapters->isEmpty()) {
             return response()->json(['message' => 'No chapters found'], 404);
         }

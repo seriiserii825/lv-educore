@@ -19,7 +19,7 @@ class HeroController extends Controller
         if ($hero) {
             return response()->json($hero, 200);
         }
-        return response()->json(['message' => 'Hero not found'], 404);
+        return response()->json(null);
     }
 
     /**
@@ -53,6 +53,7 @@ class HeroController extends Controller
 
     public function updateHero(Request $request, string $id)
     {
+        $hero = Hero::findOrFail($id);
         $validated = $request->validate([
             'label' => 'required|string|max:255',
             'title' => 'required|string|max:255',
@@ -63,10 +64,19 @@ class HeroController extends Controller
             'banner_title' => 'required|string|max:255',
             'banner_text' => 'required|string|max:255',
             'round_text' => 'required|string|max:255',
-            'image' => 'sometimes|image|mimes:jpeg,jpg,png|max:2048'
         ]);
-        $hero = Hero::findOrFail($id);
-        $validated['image'] = $this->uploadFile($request->file('image'));
+        if ($request->hasFile('image')) {
+            // validate image svg
+            $request->validate([
+                'image' => 'image|mimes:jpeg,jpg,png|max:2048'
+            ]);
+            $validated['image'] = $this->uploadFile($request->file('image'));
+        } else {
+            $request->validate([
+                'image' => 'string|max:255'
+            ]);
+            $validated['image'] = $request->image;
+        }
         $hero->update($validated);
         return response()->json(['message' => 'Hero updated successfully'], 200);
     }

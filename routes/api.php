@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\CourseLanguageController;
 use App\Http\Controllers\Admin\CourseLevelController;
 use App\Http\Controllers\Admin\CourseSubcategoryController;
+use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\InstructorRequestController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingsController;
@@ -72,6 +73,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::get('/instructor/requests', [InstructorRequestController::class, 'index']);
         Route::put('/instructor/requests/{user}', [InstructorRequestController::class, 'update']);
+
+        Route::group(['prefix' => 'sections'], function () {
+            Route::apiResource('/hero', HeroController::class);
+        });
     });
 
     Route::group(['middleware' => 'instructor'], function () {

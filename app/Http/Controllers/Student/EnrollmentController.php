@@ -27,6 +27,10 @@ class EnrollmentController extends Controller
         $watch_history = WatchHistory::where('user_id', Auth::user()->id)
             ->where('course_id', $course->id)
             ->get();
+        $last_watch_history = WatchHistory::where('user_id', Auth::user()->id)
+            ->where('course_id', $course->id)
+            ->orderBy('updated_at', 'desc')
+            ->first();
         if (Enrollment::where('user_id', Auth::user()->id)->where('course_id', $course->id)->exists()) {
             $history_chapters = $watch_history->pluck('chapter_id')->unique();
             $history_lessons = $watch_history->pluck('lesson_id')->unique();
@@ -54,6 +58,7 @@ class EnrollmentController extends Controller
             return response()->json([
                 'course' => $course,
                 'chapter_lessons' => $chapter_lessons,
+                'last_watch_history' => $last_watch_history,
             ], 200);
         } else {
             return response()->json(['message' => 'You are not enrolled in this course.'], 403);

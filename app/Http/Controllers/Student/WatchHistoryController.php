@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Auth;
 
 class WatchHistoryController extends Controller
 {
+    public function index()
+    {
+        $watch_history = WatchHistory::where('user_id', auth()->id())
+            ->select('lesson_id', 'updated_at')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return response()->json($watch_history, 200);
+    }
     public function store(Request $request)
     {
         // Validate the request
@@ -26,11 +35,11 @@ class WatchHistoryController extends Controller
         if ($lesson_id) {
             $lesson = WatchHistory::where('lesson_id', $request->lesson_id)->first();
             if ($lesson) {
-                $lesson->update([
-                    'is_completed' => $request->is_completed ? 1 : 0,
-                ]);
+                $lesson->is_completed = $request->is_completed ? 1 : 0;
+                $lesson->updated_at = now();
+                $lesson->save();
             }
-        }else{
+        } else {
             $lesson = WatchHistory::create([
                 'user_id' => Auth::user()->id,
                 'course_id' => $request->course_id,

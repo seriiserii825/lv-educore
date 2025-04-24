@@ -86,6 +86,8 @@ class HeroController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $hero = Hero::findOrFail($id);
+        $hero->delete();
+        return response()->json(['message' => 'Hero deleted successfully'], 200);
     }
 }

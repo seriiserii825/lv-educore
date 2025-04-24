@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Hero;
+use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 
 class HeroController extends Controller
 {
+    use FileUpload;
     /**
      * Display a listing of the resource.
      */
@@ -25,6 +27,7 @@ class HeroController extends Controller
      */
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'label' => 'required|string|max:255',
             'title' => 'required|string|max:255',
@@ -42,6 +45,8 @@ class HeroController extends Controller
         if ($hero) {
             return response()->json(['message' => 'Hero exists, try to update'], 400);
         }
+        // upload image
+        $validated['image'] = $this->uploadFile($request->file('image'));
         Hero::create($validated);
         return response()->json(['message' => 'Hero created successfully'], 201);
     }
@@ -61,6 +66,7 @@ class HeroController extends Controller
             'image' => 'sometimes|image|mimes:jpeg,jpg,png|max:2048'
         ]);
         $hero = Hero::findOrFail($id);
+        $validated['image'] = $this->uploadFile($request->file('image'));
         $hero->update($validated);
         return response()->json(['message' => 'Hero updated successfully'], 200);
     }

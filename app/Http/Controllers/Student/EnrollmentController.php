@@ -29,6 +29,7 @@ class EnrollmentController extends Controller
             ->get();
         $last_watch_history = WatchHistory::where('user_id', Auth::user()->id)
             ->where('course_id', $course->id)
+            ->select('lesson_id')
             ->orderBy('updated_at', 'desc')
             ->first();
         if (Enrollment::where('user_id', Auth::user()->id)->where('course_id', $course->id)->exists()) {
@@ -48,7 +49,8 @@ class EnrollmentController extends Controller
                                     ->first()
                                     ?->is_completed,
                             ];
-                        }                    }
+                        }
+                    }
                 }
                 return [
                     'chapter' => $chapter->id,

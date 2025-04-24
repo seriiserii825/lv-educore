@@ -13,7 +13,7 @@ class WatchHistoryController extends Controller
     public function index()
     {
         $watch_history = WatchHistory::where('user_id', auth()->id())
-            ->select('lesson_id', 'updated_at')
+            ->select('lesson_id',  'is_completed', 'updated_at')
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -26,7 +26,8 @@ class WatchHistoryController extends Controller
             'course_id' => 'required|exists:courses,id',
             'chapter_id' => 'required|exists:course_chapters,id',
             'lesson_id' => 'required|exists:lessons,id',
-            'is_completed' => 'boolean'
+            'is_completed' => 'boolean',
+            'complete' => 'boolean',
         ]);
 
         // check if lesson_id exists in the table
@@ -35,9 +36,12 @@ class WatchHistoryController extends Controller
         if ($lesson_id) {
             $lesson = WatchHistory::where('lesson_id', $request->lesson_id)->first();
             if ($lesson) {
-                $lesson->is_completed = $request->is_completed ? 1 : 0;
-                $lesson->updated_at = now();
-                $lesson->save();
+                if ($request->complete) {
+                    $lesson->is_completed = $request->is_completed ? 1 : 0;
+                } else {
+                    $lesson->updated_at = now();
+                    $lesson->save();
+                }
             }
         } else {
             $lesson = WatchHistory::create([

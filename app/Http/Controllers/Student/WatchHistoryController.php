@@ -27,7 +27,7 @@ class WatchHistoryController extends Controller
             'chapter_id' => 'required|exists:course_chapters,id',
             'lesson_id' => 'required|exists:lessons,id',
             'is_completed' => 'boolean',
-            'complete' => 'boolean',
+            'checked' => 'boolean',
         ]);
 
         // check if lesson_id exists in the table
@@ -36,8 +36,11 @@ class WatchHistoryController extends Controller
         if ($lesson_id) {
             $lesson = WatchHistory::where('lesson_id', $request->lesson_id)->first();
             if ($lesson) {
-                if ($request->complete) {
-                    $lesson->is_completed = $request->is_completed ? 1 : 0;
+                if ($request->checked) {
+                    $lesson->timestamps = false;
+                    $lesson->update([
+                        'is_completed' => $request->is_completed ? 1 : 0,
+                    ]);
                 } else {
                     $lesson->updated_at = now();
                     $lesson->save();
@@ -54,7 +57,8 @@ class WatchHistoryController extends Controller
         }
         return response()->json([
             'is_completed' => $request->is_completed ? 1 : 0,
-            'message' => 'Watch history updated successfully'
+            'message' => 'Watch history updated successfully',
+            'checked' => $request->checked,
         ], 200);
     }
 }

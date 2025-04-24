@@ -13,7 +13,11 @@ class HeroController extends Controller
      */
     public function index()
     {
-        //
+        $hero = Hero::first();
+        if ($hero) {
+            return response()->json($hero, 200);
+        }
+        return response()->json(['message' => 'Hero not found'], 404);
     }
 
     /**
@@ -42,20 +46,23 @@ class HeroController extends Controller
         return response()->json(['message' => 'Hero created successfully'], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function updateHero(Request $request, string $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        $validated = $request->validate([
+            'label' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'video_text' => 'required|string|max:255',
+            'video_url' => 'required|url',
+            'button_text' => 'required|string|max:255',
+            'banner_title' => 'required|string|max:255',
+            'banner_text' => 'required|string|max:255',
+            'round_text' => 'required|string|max:255',
+            'image' => 'sometimes|image|mimes:jpeg,jpg,png|max:2048'
+        ]);
+        $hero = Hero::findOrFail($id);
+        $hero->update($validated);
+        return response()->json(['message' => 'Hero updated successfully'], 200);
     }
 
     /**

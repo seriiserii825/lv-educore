@@ -76,6 +76,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::group(['prefix' => 'sections'], function () {
             Route::apiResource('/hero', HeroController::class);
+            Route::post('/hero/update/{hero}', [HeroController::class, 'updateHero']);
         });
     });
 

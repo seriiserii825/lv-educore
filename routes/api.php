@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CoursePageController;
+use App\Http\Controllers\Front\HeroController as FrontHeroController;
 use App\Http\Controllers\Front\OrderController;
 use App\Http\Controllers\Instructor\CourseChapterController;
 use App\Http\Controllers\Instructor\CourseController;
@@ -31,6 +32,7 @@ Route::get('/home', function () {
 // courses
 Route::get('/courses', [CoursePageController::class, 'index']);
 Route::get('/courses/{course}', [CoursePageController::class, 'show']);
+Route::get('/home/hero', [FrontHeroController::class, 'index']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

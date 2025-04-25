@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Hero;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Home;
 use Illuminate\Database\Seeder;
 
-class HeroSeeder extends Seeder
+class HomeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -35,6 +34,6 @@ class HeroSeeder extends Seeder
             'round_text' => 'Join Our Community and Explore a Variety of Fresh Topics',
             'image' => 'uploads/banner_3_img_1.png',
         ];
-        Hero::create($hero);
+        Home::create($hero);
     }
 }

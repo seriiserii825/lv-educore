@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Hero;
+use App\Models\Home;
 use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 
-class HeroController extends Controller
+class HomeController extends Controller
 {
     use FileUpload;
     /**
@@ -15,7 +15,7 @@ class HeroController extends Controller
      */
     public function index()
     {
-        $hero = Hero::first();
+        $hero = Home::first();
         if ($hero) {
             return response()->json($hero, 200);
         }
@@ -41,19 +41,19 @@ class HeroController extends Controller
             'image' => 'required|image|mimes:jpeg,jpg,png|max:2048'
         ]);
         // check if exists a record
-        $hero = Hero::first();
+        $hero = Home::first();
         if ($hero) {
-            return response()->json(['message' => 'Hero exists, try to update'], 400);
+            return response()->json(['message' => 'Home exists, try to update'], 400);
         }
         // upload image
         $validated['image'] = $this->uploadFile($request->file('image'));
-        Hero::create($validated);
-        return response()->json(['message' => 'Hero created successfully'], 201);
+        Home::create($validated);
+        return response()->json(['message' => 'Home created successfully'], 201);
     }
 
-    public function updateHero(Request $request, string $id)
+    public function updateHome(Request $request, string $id)
     {
-        $hero = Hero::findOrFail($id);
+        $hero = Home::findOrFail($id);
         $validated = $request->validate([
             'label' => 'required|string|max:255',
             'title' => 'required|string|max:255',
@@ -78,7 +78,7 @@ class HeroController extends Controller
             $validated['image'] = $request->image;
         }
         $hero->update($validated);
-        return response()->json(['message' => 'Hero updated successfully'], 200);
+        return response()->json(['message' => 'Home updated successfully'], 200);
     }
 
     /**
@@ -86,8 +86,8 @@ class HeroController extends Controller
      */
     public function destroy(string $id)
     {
-        $hero = Hero::findOrFail($id);
+        $hero = Home::findOrFail($id);
         $hero->delete();
-        return response()->json(['message' => 'Hero deleted successfully'], 200);
+        return response()->json(['message' => 'Home deleted successfully'], 200);
     }
 }

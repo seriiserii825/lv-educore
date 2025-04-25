@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\Hero;
+use App\Models\Home;
 use Illuminate\Http\Request;
 
-class HeroController extends Controller
+class HomeController extends Controller
 {
     public function index()
     {
-        $hero = Hero::first();
+        $hero = Home::first();
         if ($hero) {
             return response()->json($hero, 200);
         }

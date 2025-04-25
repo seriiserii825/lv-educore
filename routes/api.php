@@ -5,14 +5,14 @@ use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\CourseLanguageController;
 use App\Http\Controllers\Admin\CourseLevelController;
 use App\Http\Controllers\Admin\CourseSubcategoryController;
-use App\Http\Controllers\Admin\HeroController;
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\InstructorRequestController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CoursePageController;
-use App\Http\Controllers\Front\HeroController as FrontHeroController;
+use App\Http\Controllers\Front\HomeController as FrontHomeController;
 use App\Http\Controllers\Front\OrderController;
 use App\Http\Controllers\Instructor\CourseChapterController;
 use App\Http\Controllers\Instructor\CourseController;
@@ -32,7 +32,7 @@ Route::get('/home', function () {
 // courses
 Route::get('/courses', [CoursePageController::class, 'index']);
 Route::get('/courses/{course}', [CoursePageController::class, 'show']);
-Route::get('/home/hero', [FrontHeroController::class, 'index']);
+Route::get('/home/hero', [FrontHomeController::class, 'index']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -77,8 +77,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/instructor/requests/{user}', [InstructorRequestController::class, 'update']);
 
         Route::group(['prefix' => 'sections'], function () {
-            Route::apiResource('/hero', HeroController::class);
-            Route::post('/hero/update/{hero}', [HeroController::class, 'updateHero']);
+            Route::apiResource('/hero', HomeController::class);
+            Route::post('/hero/update/{hero}', [HomeController::class, 'updateHome']);
         });
     });
 

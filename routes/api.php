@@ -77,8 +77,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/instructor/requests/{user}', [InstructorRequestController::class, 'update']);
 
         Route::group(['prefix' => 'sections'], function () {
-            Route::apiResource('/hero', HomeController::class);
-            Route::post('/hero/update/{hero}', [HomeController::class, 'updateHome']);
+            Route::apiResource('/home', HomeController::class);
+            Route::post('/home/update/{home}', [HomeController::class, 'updateHome']);
         });
     });
 

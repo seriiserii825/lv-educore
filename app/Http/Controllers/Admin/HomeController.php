@@ -15,9 +15,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $hero = Home::first();
-        if ($hero) {
-            return response()->json($hero, 200);
+        $home = Home::first();
+        if ($home) {
+            return response()->json($home, 200);
         }
         return response()->json(null);
     }
@@ -41,19 +41,19 @@ class HomeController extends Controller
             'image' => 'required|image|mimes:jpeg,jpg,png|max:2048'
         ]);
         // check if exists a record
-        $hero = Home::first();
-        if ($hero) {
+        $home = Home::first();
+        if ($home) {
             return response()->json(['message' => 'Home exists, try to update'], 400);
         }
         // upload image
         $validated['image'] = $this->uploadFile($request->file('image'));
-        Home::create($validated);
-        return response()->json(['message' => 'Home created successfully'], 201);
+        $home = Home::create($validated);
+        return response()->json(['message' => 'Home created successfully', 'home' => $home], 201);
     }
 
     public function updateHome(Request $request, string $id)
     {
-        $hero = Home::findOrFail($id);
+        $home = Home::findOrFail($id);
         $validated = $request->validate([
             'label' => 'required|string|max:255',
             'title' => 'required|string|max:255',
@@ -77,7 +77,7 @@ class HomeController extends Controller
             ]);
             $validated['image'] = $request->image;
         }
-        $hero->update($validated);
+        $home->update($validated);
         return response()->json(['message' => 'Home updated successfully'], 200);
     }
 
@@ -86,8 +86,8 @@ class HomeController extends Controller
      */
     public function destroy(string $id)
     {
-        $hero = Home::findOrFail($id);
-        $hero->delete();
+        $home = Home::findOrFail($id);
+        $home->delete();
         return response()->json(['message' => 'Home deleted successfully'], 200);
     }
 }

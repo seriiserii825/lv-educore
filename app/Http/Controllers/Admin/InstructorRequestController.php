@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InstructorRequest\UpdateRequest;
+use App\Http\Requests\InstructorRequestBecomeInstructor\StoreRequest;
 use App\Mail\InstructorRequestEmail;
 use App\Models\User;
 use App\Services\Instructor\InstructorRequestService;
@@ -14,7 +15,6 @@ use Illuminate\Support\Facades\Mail;
 
 class InstructorRequestController extends Controller
 {
-    use FileUpload;
     public function index()
     {
         $users = User::where('role', 'student')->where(function (Builder $query) {
@@ -25,26 +25,15 @@ class InstructorRequestController extends Controller
 
     public function update(UpdateRequest $request, User $user, InstructorRequestService $service)
     {
-        $service->store($request->approve_status, $user);
+        $service->update($request->approve_status, $user);
         $service->sendEmail();
         return response()->json($user, 200);
     }
 
-    public function becomeInstructor(Request $request, User $user)
+    public function becomeInstructor(StoreRequest $request, User $user, InstructorRequestService $service)
     {
-        $request->validate([
-            'document' => 'required|file|mimes:pdf,doc,docx',
-        ]);
-
-        $user->document = $this->uploadFile($request->file('document'));
-        $user->approve_status = 'pending';
-        $user->save();
-
-        if (config('mail_queue.is_queue')) {
-            Mail::to($user->email)->queue(new InstructorRequestEmail($user));
-        } else {
-            Mail::to($user->email)->send(new InstructorRequestEmail($user));
-        }
+        $service->store($request->file('document'), $user);
+        $service->sendEmail();
 
         return response()->json($user, 200);
     }

@@ -5,6 +5,9 @@ namespace App\Services\Instructor;
 use App\Mail\InstructorRejectRequestEmail;
 use App\Mail\InstructorRequestEmail;
 use App\Models\User;
+use App\Traits\FileUpload;
+use Illuminate\Http\File;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
 
 class InstructorRequestService
@@ -12,7 +15,17 @@ class InstructorRequestService
     private $user;
     private $approve_status;
 
-    public function store(string $approve_status, User $user)
+    use FileUpload;
+
+    public function store(UploadedFile $document, User $user)
+    {
+        $this->user = $user;
+        $this->user->document = $this->uploadFile($document);
+        $this->user->approve_status = 'pending';
+        $this->user->save();
+    }
+
+    public function update(string $approve_status, User $user)
     {
         $this->approve_status = $approve_status;
         $this->user = $user;

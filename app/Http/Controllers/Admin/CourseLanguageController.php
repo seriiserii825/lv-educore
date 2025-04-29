@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseLanguage\StoreRequest;
+use App\Http\Services\Admin\CourseLanguageService;
 use App\Models\CourseLanguage;
 use Illuminate\Http\Request;
 
@@ -25,13 +27,9 @@ class CourseLanguageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request, CourseLanguageService $service)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:course_languages',
-        ]);
-        $validated['slug'] = \Str::slug($validated['name']);
-        $course_language = CourseLanguage::create($validated);
+        $course_language = $service->store($request->name);
         return response()->json($course_language);
     }
 

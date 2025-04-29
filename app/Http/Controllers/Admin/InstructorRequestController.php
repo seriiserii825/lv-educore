@@ -5,13 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InstructorRequest\UpdateRequest;
 use App\Http\Requests\InstructorRequestBecomeInstructor\StoreRequest;
-use App\Mail\InstructorRequestEmail;
 use App\Models\User;
 use App\Services\Instructor\InstructorRequestService;
-use App\Traits\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class InstructorRequestController extends Controller
 {

@@ -6,7 +6,6 @@ use App\Mail\InstructorRejectRequestEmail;
 use App\Mail\InstructorRequestEmail;
 use App\Models\User;
 use App\Traits\FileUpload;
-use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
 

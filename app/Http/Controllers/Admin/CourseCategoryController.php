@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseCategory\StoreRequest;
+use App\Http\Requests\CourseCategory\UpdateRequest;
 use App\Models\CourseCategory;
 use App\Services\Admin\CourseCategoryService;
 use App\Traits\FileUpload;
@@ -37,21 +38,9 @@ class CourseCategoryController extends Controller
         return response()->json($category);
     }
 
-    public function update(Request $request, CourseCategory $category)
+    public function update(UpdateRequest $request, CourseCategory $category)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:course_categories,name,' . $category->id,
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'icon' => 'nullable|string',
-            'show_at_tranding' => 'nullable|boolean',
-            'status' => 'nullable|boolean',
-        ]);
-
-        $validated['slug'] = \Str::slug($validated['name']);
-        if ($request->hasFile('image') && $category->image) {
-            $validated['image'] = $this->uploadFile($request->file('image'), $category->image);
-        }
-        $category->update($validated);
+        $category = $this->service->update($category, $request);
         return response()->json($category, 200);
     }
 

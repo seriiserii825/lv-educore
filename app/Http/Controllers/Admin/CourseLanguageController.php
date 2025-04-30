@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseLanguage\StoreRequest;
-use App\Http\Services\Admin\CourseLanguageService;
+use App\Http\Requests\CourseLanguage\UpdateRequest;
+use App\Services\Admin\CourseLanguageService;
 use App\Models\CourseLanguage;
-use Illuminate\Http\Request;
 
 class CourseLanguageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $service;
+
+    public function __construct(CourseLanguageService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
         $course_languages = CourseLanguage::orderBy('updated_at', 'desc')->get();
@@ -27,9 +31,9 @@ class CourseLanguageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequest $request, CourseLanguageService $service)
+    public function store(StoreRequest $request)
     {
-        $course_language = $service->store($request->name);
+        $course_language = $this->service->store($request->name);
         return response()->json($course_language);
     }
 
@@ -37,13 +41,9 @@ class CourseLanguageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CourseLanguage $language)
+    public function update(UpdateRequest $request, CourseLanguage $language)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:course_languages,name,' . $language->id,
-        ]);
-        $validated['slug'] = \Str::slug($validated['name']);
-        $language->update($validated);
+        $language = $this->service->update($language, $request->name);
         return response()->json($language);
     }
 

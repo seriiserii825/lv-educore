@@ -1,13 +1,20 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseLevel\StoreRequest;
 use App\Models\CourseLevel;
+use App\Services\Admin\CourseLevelService;
 use Illuminate\Http\Request;
+
 class CourseLevelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected CourseLevelService $service;
+    public function __construct(CourseLevelService $service) {
+        $this->service = $service;
+    }
+
     public function index()
     {
         $levels = CourseLevel::orderBy('updated_at', 'desc')->get();
@@ -16,13 +23,9 @@ class CourseLevelController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:course_levels,name',
-        ]);
-        $validated['slug'] = \Str::slug($validated['name']);
-        $level = CourseLevel::create($validated);
+        $level = $this->service->store($request->name);
         return response()->json($level, 201);
     }
     /**

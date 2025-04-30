@@ -3,56 +3,40 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseCategory\StoreRequest;
 use App\Models\CourseCategory;
+use App\Services\Admin\CourseCategoryService;
 use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 
 class CourseCategoryController extends Controller
 {
     use FileUpload;
-    /**
-     * Display a listing of the resource.
-     */
+
+    private $service;
+
+    public function __construct(CourseCategoryService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        // Fetch all categories with their subcategories
         $categories = CourseCategory::with('subcategories')->whereNull('parent_id')->orderBy('updated_at', 'desc')->get();
         return response()->json($categories);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:course_categories,name',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'icon' => 'nullable|string',
-            'show_at_tranding' => 'nullable|boolean',
-            'status' => 'nullable|boolean',
-        ]);
-        $validated['slug'] = \Str::slug($validated['name']);
-
-        if ($request->hasFile('image')) {
-            $validated['image'] = $this->uploadFile($request->file('image'));
-        }
-
-        $category = CourseCategory::create($validated);
+        $category = $this->service->store($request);
         return response()->json($category, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(CourseCategory $category)
     {
         return response()->json($category);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, CourseCategory $category)
     {
         $validated = $request->validate([

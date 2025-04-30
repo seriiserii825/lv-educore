@@ -3,6 +3,7 @@
 namespace App\Services\Admin;
 
 use App\Http\Requests\CourseSubCategory\StoreRequest;
+use App\Http\Requests\CourseSubCategory\UpdateRequest;
 use App\Models\CourseCategory;
 use App\Traits\FileUpload;
 
@@ -20,6 +21,19 @@ class CourseSubCategoryService
         }
 
         return CourseCategory::create($validated);
+    }
+
+    public function update(UpdateRequest $request, CourseCategory $category, CourseCategory $subcategory)
+    {
+        $validated = $request->all();
+        $validated['slug'] = \Str::slug($validated['name']);
+
+        if ($request->hasFile('image') && $subcategory->image) {
+            $validated['image'] = $this->uploadFile($request->file('image'), $subcategory->image);
+        }
+        $subcategory = $category->subcategories()->findOrFail($subcategory->id);
+        $subcategory->update($validated);
+        return response()->json($subcategory, 200);
     }
 }
 

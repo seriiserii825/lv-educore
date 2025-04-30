@@ -36,21 +36,7 @@ class CourseSubcategoryController extends Controller
 
     public function update(Request $request, CourseCategory $category, CourseCategory $subcategory)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:course_categories,name,' . $category->id,
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'icon' => 'nullable|string',
-            'show_at_tranding' => 'nullable|boolean',
-            'status' => 'nullable|boolean',
-        ]);
-
-        $validated['slug'] = \Str::slug($validated['name']);
-        if ($request->hasFile('image') && $category->image) {
-            $validated['image'] = $this->uploadFile($request->file('image'), $category->image);
-        }
-        $subcategory = $category->subcategories()->findOrFail($subcategory->id);
-        $subcategory->update($validated);
-        return response()->json($subcategory, 200);
+        return $this->service->update($request, $category, $subcategory);
     }
     public function destroy(CourseCategory $category, CourseCategory $subcategory)
     {

@@ -3,13 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseSubCategory\StoreRequest;
 use App\Models\CourseCategory;
+use App\Services\Admin\CourseSubCategoryService;
 use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 
 class CourseSubcategoryController extends Controller
 {
     use FileUpload;
+    private $service;
+    public function __construct(CourseSubCategoryService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index(CourseCategory $category)
     {
         $subcategories = $category->subcategories()->orderBy('updated_at', 'desc')->get();
@@ -20,23 +28,9 @@ class CourseSubcategoryController extends Controller
         $subcategory = $category->subcategories()->findOrFail($subcategory->id);
         return response()->json($subcategory, 200);
     }
-    public function store(Request $request, CourseCategory $category)
+    public function store(StoreRequest $request, CourseCategory $category)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:course_categories,name',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'icon' => 'nullable|string',
-            'show_at_tranding' => 'nullable|boolean',
-            'status' => 'nullable|boolean',
-        ]);
-        $validated['parent_id'] = $category->id;
-        $validated['slug'] = \Str::slug($validated['name']);
-
-        if ($request->hasFile('image')) {
-            $validated['image'] = $this->uploadFile($request->file('image'));
-        }
-
-        $category = CourseCategory::create($validated);
+        $category = $this->service->store($request, $category);
         return response()->json($category, 201);
     }
 

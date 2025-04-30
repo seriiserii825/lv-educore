@@ -1,5 +1,7 @@
 <?php
 namespace App\Services\Front;
+
+use App\Http\Requests\Cart\StoreRequest;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
 class CartService
@@ -16,5 +18,17 @@ class CartService
             return response()->json(['message' => 'Cart is empty'], 404);
         }
         return response()->json($cart_items, 200);
+    }
+    public function store(StoreRequest $request)
+    {
+        $user_courses = Cart::where('user_id', $this->user_id)->pluck('course_id')->toArray();
+        if (in_array($request->course_id, $user_courses)) {
+            return response()->json(['message' => 'Course already in cart'], 409);
+        }
+        Cart::create([
+            'user_id' => $this->user_id,
+            'course_id' => $request->course_id,
+        ]);
+        return response()->json(['message' => 'Course added to cart'], 201);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Cart\StoreRequest;
 use App\Models\Cart;
 use App\Services\Front\CartService;
 use Illuminate\Http\Request;
@@ -16,11 +17,8 @@ class CartController extends Controller
     {
         return $this->service->index();
     }
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate([
-            'course_id' => 'required|exists:courses,id',
-        ]);
         $user_id = Auth::id();
         $user_courses = Cart::where('user_id', $user_id)->pluck('course_id')->toArray();
         if (in_array($request->course_id, $user_courses)) {

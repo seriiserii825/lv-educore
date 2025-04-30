@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseLevel\StoreRequest;
+use App\Http\Requests\CourseLevel\UpdateRequest;
 use App\Models\CourseLevel;
 use App\Services\Admin\CourseLevelService;
 use Illuminate\Http\Request;
@@ -39,13 +40,9 @@ class CourseLevelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CourseLevel $level)
+    public function update(UpdateRequest $request, CourseLevel $level)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:course_levels,name,' . $level->id,
-        ]);
-        $validated['slug'] = \Str::slug($validated['name']);
-        $level->update($validated);
+        $level = $this->service->update($level, $request->name);
         return response()->json($level, 200);
     }
 

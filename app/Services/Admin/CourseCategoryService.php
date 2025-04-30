@@ -34,5 +34,17 @@ class CourseCategoryService
         $category->update($validated);
         return $category;
     }
+
+    public function destroy(CourseCategory $category)
+    {
+        if ($category->subcategories()->exists()) {
+            return response()->json(['message' => 'Cannot delete category with subcategories!!!'], 400);
+        }
+        if ($category->image) {
+            $this->deleteFile($category->image);
+        }
+        $category->delete();
+        return response()->json(['message' => 'Category deleted successfully'], 200);
+    }
 }
 

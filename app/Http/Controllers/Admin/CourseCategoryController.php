@@ -44,19 +44,8 @@ class CourseCategoryController extends Controller
         return response()->json($category, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(CourseCategory $category)
     {
-        // Check if the category has subcategories
-        if ($category->subcategories()->exists()) {
-            return response()->json(['message' => 'Cannot delete category with subcategories!!!'], 400);
-        }
-        if ($category->image) {
-            $this->deleteFile($category->image);
-        }
-        $category->delete();
-        return response()->json(['message' => 'Category deleted successfully'], 200);
+        return $this->service->destroy($category);
     }
 }

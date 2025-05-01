@@ -4,6 +4,7 @@ namespace App\Services\Instructor;
 
 use App\Http\Requests\CourseChapter\StoreRequest;
 use App\Http\Requests\CourseChapter\UpdateRequest;
+use App\Http\Requests\OrderLessons\StoreRequest as OrderLessonsStoreRequest;
 use App\Models\Course;
 use App\Models\CourseChapter;
 use Illuminate\Support\Facades\Auth;
@@ -63,5 +64,26 @@ class CourseChapterService
         }
         $chapter->delete();
         return response()->json(['message' => 'Chapter deleted successfully'], 200);
+    }
+
+    public function orderLessons(OrderLessonsStoreRequest $request, Course $course, CourseChapter $chapter)
+    {
+        $instructor_id = Auth::user()->id;
+        if ($chapter->instructor_id != $instructor_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        if ($chapter->course_id != $course->id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        // Logic to order lessons
+        $lessons_ids = $request->input('lessons_ids');
+        foreach ($lessons_ids as $order => $lesson_id) {
+            $lesson = $chapter->lessons()->find($lesson_id);
+            if ($lesson) {
+                $lesson->order = $order;
+                $lesson->save();
+            }
+        }
+        return response()->json(['message' => 'Lessons ordered successfully'], 200);
     }
 }

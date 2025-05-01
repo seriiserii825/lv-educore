@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Instructor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseChapter\StoreRequest;
 use App\Http\Requests\CourseChapter\UpdateRequest;
+use App\Http\Requests\OrderLessons\StoreRequest as OrderLessonsStoreRequest;
 use App\Models\Course;
 use App\Models\CourseChapter;
 use App\Services\Instructor\CourseChapterService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CourseChapterController extends Controller
 {
@@ -38,29 +37,8 @@ class CourseChapterController extends Controller
         return $this->service->destroy($course, $chapter_id);
     }
 
-    public function orderLessons(Request $request, Course $course, CourseChapter $chapter)
+    public function orderLessons(OrderLessonsStoreRequest $request, Course $course, CourseChapter $chapter)
     {
-        $request->validate([
-            'lessons_ids' => 'required|array',
-            'lessons_ids.*' => 'exists:lessons,id',
-        ]);
-
-        $instructor_id = Auth::user()->id;
-        if ($chapter->instructor_id != $instructor_id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-        if ($chapter->course_id != $course->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-        // Logic to order lessons
-        $lessons_ids = $request->input('lessons_ids');
-        foreach ($lessons_ids as $order => $lesson_id) {
-            $lesson = $chapter->lessons()->find($lesson_id);
-            if ($lesson) {
-                $lesson->order = $order;
-                $lesson->save();
-            }
-        }
-        return response()->json(['message' => 'Lessons ordered successfully'], 200);
+        return $this->service->orderLessons($request, $course, $chapter);
     }
 }

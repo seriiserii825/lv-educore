@@ -7,30 +7,22 @@ use App\Http\Requests\CourseChapter\StoreRequest;
 use App\Http\Requests\CourseChapter\UpdateRequest;
 use App\Models\Course;
 use App\Models\CourseChapter;
+use App\Services\Instructor\CourseChapterService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CourseChapterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private $service;
+    public function __construct(CourseChapterService $service)
+    {
+        $this->service = $service;
+    }
     public function index(Course $course)
     {
-        $instructor_id = Auth::user()->id;
-        $course_chapters = CourseChapter::where([
-            'course_id' => $course->id,
-            'instructor_id' => $instructor_id,
-        ])->with('lessons')->get();
-        if ($course_chapters->isEmpty()) {
-            return response()->json(['message' => 'No chapters found'], 404);
-        }
-        return response()->json($course_chapters);
+        return $this->service->index($course);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreRequest $request, Course $course)
     {
         $instructor_id = Auth::user()->id;
@@ -41,17 +33,11 @@ class CourseChapterController extends Controller
         return response()->json($course_chapter, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateRequest $request, Course $course, CourseChapter $chapter)
     {
         $instructor_id = Auth::user()->id;
@@ -62,9 +48,6 @@ class CourseChapterController extends Controller
         return response()->json($chapter, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Course $course, CourseChapter $chapter)
     {
         $instructor_id = Auth::user()->id;

@@ -3,6 +3,7 @@
 namespace App\Services\Instructor;
 
 use App\Http\Requests\CourseChapter\StoreRequest;
+use App\Http\Requests\CourseChapter\UpdateRequest;
 use App\Models\Course;
 use App\Models\CourseChapter;
 use Illuminate\Support\Facades\Auth;
@@ -30,5 +31,15 @@ class CourseChapterService
         $course_chapter->course_id = $course->id;
         $course_chapter->save();
         return response()->json($course_chapter, 201);
+    }
+
+    public function update(UpdateRequest $request, CourseChapter $chapter)
+    {
+        $instructor_id = Auth::user()->id;
+        if ($chapter->instructor_id != $instructor_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        $chapter->update($request->validated());
+        return response()->json($chapter, 200);
     }
 }

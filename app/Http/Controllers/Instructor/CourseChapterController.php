@@ -28,19 +28,10 @@ class CourseChapterController extends Controller
         return $this->service->store($request, $course);
     }
 
-    public function show(string $id)
+    public function update(UpdateRequest $request, string $chapter_id)
     {
-        //
-    }
-
-    public function update(UpdateRequest $request, Course $course, CourseChapter $chapter)
-    {
-        $instructor_id = Auth::user()->id;
-        if ($chapter->instructor_id != $instructor_id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-        $chapter->update($request->validated());
-        return response()->json($chapter, 200);
+        $chapter = CourseChapter::find($chapter_id);
+        return $this->service->update($request, $chapter);
     }
 
     public function destroy(Course $course, CourseChapter $chapter)

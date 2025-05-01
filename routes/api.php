@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::apiResource('/instructor/courses/{course}/chapters', CourseChapterController::class);
         Route::post('/instructor/courses/{course}/chapters/{chapter}/order', [CourseChapterController::class, 'orderLessons']);
         Route::apiResource('/instructor/courses/{course}/chapters/{chapter}/lessons', CourseLessonControlller::class);
+        Route::post('/instructor/courses/{course}/chapters/{chapter}/lessons/{lesson}/update', [CourseLessonControlller::class, 'updateMethod']);
     });
 
     Route::group(['middleware' => 'student'], function () {

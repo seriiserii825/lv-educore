@@ -8,76 +8,38 @@ use App\Http\Requests\CourseLesson\UpdateRequest;
 use App\Models\Course;
 use App\Models\CourseChapter;
 use App\Models\Lesson;
+use App\Services\Instructor\InstructorCourseLessonsService;
 use App\Traits\FileUpload;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CourseLessonControlller extends Controller
 {
     use FileUpload;
-    /**
-     * Display a listing of the resource.
-     */
+    private $service;
+    public function __construct(InstructorCourseLessonsService $service) {
+        $this->service = $service;
+    }
+
     public function index(Course $course, CourseChapter $chapter)
     {
         $lessons = Lesson::where(['course_id' => $course->id, 'chapter_id' => $chapter->id])->get();
         return response()->json($lessons);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreRequest $request, Course $course, CourseChapter $chapter)
+    public function store(StoreRequest $request, Course $course, string $chapter_id)
     {
-        $lesson = new Lesson();
-        $lesson->fill($request->validated());
-
-        if ($request->hasFile('video_file')) {
-            $lesson->file_path = $this->uploadFile($request->file('video_file'));
-        } else {
-            $lesson->file_path = $request['video_input'];
-        }
-        $lesson->instructor_id = Auth::id();
-        $lesson->course_id = $course->id;
-        $lesson->chapter_id = $chapter->id;
-        $lesson->slug = str($request['title'])->slug();
-        $lesson->save();
-        return response()->json($lesson, 201);
+        return $this->service->store($request, $course, $chapter_id);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update()
     {
-        //
+//
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRequest $request, Course $course, CourseChapter $chapter, Lesson $lesson)
+    public function updateMethod(UpdateRequest $request, Course $course, CourseChapter $chapter, Lesson $lesson)
     {
-        $lesson->fill($request->validated());
-        if ($request->hasFile('video_file')) {
-            if ($lesson->file_path) {
-                $this->deleteFile($lesson->file_path);
-            }
-            $lesson->file_path = $this->uploadFile($request->file('video_file'));
-        } else {
-            $lesson->file_path = $request['video_input'];
-        }
-        $lesson->instructor_id = Auth::id();
-        $lesson->course_id = $course->id;
-        $lesson->chapter_id = $chapter->id;
-        $lesson->slug = str($request['title'])->slug();
-        $lesson->save();
-        return response()->json($lesson, 200);
+        return $this->service->update($request, $course, $chapter, $lesson);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Course $course, CourseChapter $chapter, Lesson $lesson)
     {
         if ($lesson->course_id !== $course->id || $lesson->chapter_id !== $chapter->id) {

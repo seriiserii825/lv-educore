@@ -7,19 +7,11 @@ use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         $lesson_id = $this->route('lesson'); // Get lesson id from route
@@ -28,7 +20,11 @@ class UpdateRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('course_chapters', 'title')->ignore($lesson_id),
+                Rule::unique('lessons', 'title')
+                    ->ignore($lesson_id) // ignore first
+                    ->where(function ($query) {
+                        $query->where('id', $this->route('lesson'));
+                    }),
             ],
             'storage' => 'required|in:upload,youtube,vimeo,external_link',
             'file_type' => 'required|in:video,audio,text,pdf',

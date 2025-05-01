@@ -17,7 +17,6 @@ use App\Http\Controllers\Front\OrderController;
 use App\Http\Controllers\Instructor\CourseChapterController;
 use App\Http\Controllers\Instructor\CourseController;
 use App\Http\Controllers\Instructor\CourseLessonControlller;
-use App\Http\Controllers\Student\CourseController as StudentCourseController;
 use App\Http\Controllers\Student\EnrollmentController;
 use App\Http\Controllers\Student\WatchHistoryController;
 use App\Models\User;

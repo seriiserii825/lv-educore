@@ -30,18 +30,6 @@ class CourseController extends Controller
         return response()->json($course, 200);
     }
 
-    public function step2(Course $course)
-    {
-        $categories = CourseCategory::where('status', 1)->get();
-        $levels = CourseLevel::all();
-        $languages = CourseLanguage::all();
-        return response()->json([
-            'course' => $course,
-            'categories' => $categories,
-            'levels' => $levels,
-            'languages' => $languages,
-        ], 200);
-    }
 
     public function store(StoreRequest $request)
     {
@@ -61,6 +49,19 @@ class CourseController extends Controller
         $course->slug = Str::slug($request['title']);
         $course->save();
         return response($course, 201);
+    }
+
+    public function step2(Course $course)
+    {
+        $categories = CourseCategory::where('status', 1)->get();
+        $levels = CourseLevel::all();
+        $languages = CourseLanguage::all();
+        return response()->json([
+            'course' => $course,
+            'categories' => $categories,
+            'levels' => $levels,
+            'languages' => $languages,
+        ], 200);
     }
 
     public function updateStep1(UpdateRequest $request, Course $course)

@@ -30,24 +30,12 @@ class CourseChapterController extends Controller
 
     public function update(UpdateRequest $request, string $chapter_id)
     {
-        $chapter = CourseChapter::find($chapter_id);
-        return $this->service->update($request, $chapter);
+        return $this->service->update($request, $chapter_id);
     }
 
-    public function destroy(Course $course, CourseChapter $chapter)
+    public function destroy(Course $course, string $chapter_id)
     {
-        $instructor_id = Auth::user()->id;
-        if ($chapter->instructor_id != $instructor_id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-        if ($chapter->course_id != $course->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-        if ($chapter->lessons()->exists()) {
-            return response()->json(['message' => 'Chapter has lessons and cannot be deleted'], 403);
-        }
-        $chapter->delete();
-        return response()->json(['message' => 'Chapter deleted successfully'], 200);
+        return $this->service->destroy($course, $chapter_id);
     }
 
     public function orderLessons(Request $request, Course $course, CourseChapter $chapter)

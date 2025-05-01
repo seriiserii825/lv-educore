@@ -51,4 +51,17 @@ class InstructorCourseLessonsService
         $lesson->save();
         return response()->json($lesson, 200);
     }
+
+    public function destroy(Course $course, CourseChapter $chapter, Lesson $lesson)
+    {
+        if ($lesson->course_id !== $course->id || $lesson->chapter_id !== $chapter->id) {
+            return response()->json(['message' => 'Lesson not found'], 404);
+        }
+
+        if ($lesson->file_path) {
+            $this->deleteFile($lesson->file_path);
+        }
+        $lesson->delete();
+        return response()->json(['message' => 'Lesson deleted successfully'], 200);
+    }
 }

@@ -25,12 +25,7 @@ class CourseChapterController extends Controller
 
     public function store(StoreRequest $request, Course $course)
     {
-        $instructor_id = Auth::user()->id;
-        $course_chapter = new CourseChapter($request->validated());
-        $course_chapter->instructor_id = $instructor_id;
-        $course_chapter->course_id = $course->id;
-        $course_chapter->save();
-        return response()->json($course_chapter, 201);
+        return $this->service->store($request, $course);
     }
 
     public function show(string $id)

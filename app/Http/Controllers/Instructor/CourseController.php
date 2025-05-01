@@ -35,15 +35,7 @@ class CourseController extends Controller
     }
     public function step2(Course $course)
     {
-        $categories = CourseCategory::where('status', 1)->get();
-        $levels = CourseLevel::all();
-        $languages = CourseLanguage::all();
-        return response()->json([
-            'course' => $course,
-            'categories' => $categories,
-            'levels' => $levels,
-            'languages' => $languages,
-        ], 200);
+        return $this->service->step2($course);
     }
     public function updateStep1(UpdateRequest $request, Course $course)
     {

@@ -2,6 +2,9 @@
 namespace App\Services\Instructor;
 use App\Http\Requests\Course\StoreRequest;
 use App\Models\Course;
+use App\Models\CourseCategory;
+use App\Models\CourseLanguage;
+use App\Models\CourseLevel;
 use App\Traits\FileUpload;
 use Illuminate\Support\Facades\Auth;
 class CourseService {
@@ -24,5 +27,17 @@ class CourseService {
         $course->slug = \Str::slug($request['title']);
         $course->save();
         return response($course, 201);
+    }
+    public function step2(Course $course)
+    {
+        $categories = CourseCategory::where('status', 1)->get();
+        $levels = CourseLevel::all();
+        $languages =CourseLanguage::all();
+        return response()->json([
+            'course' => $course,
+            'categories' => $categories,
+            'levels' => $levels,
+            'languages' => $languages,
+        ], 200);
     }
 }

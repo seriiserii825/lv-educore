@@ -1,6 +1,5 @@
 <?php
 namespace App\Services\Front;
-
 use App\Http\Requests\Cart\StoreRequest;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
@@ -30,5 +29,13 @@ class CartService
             'course_id' => $request->course_id,
         ]);
         return response()->json(['message' => 'Course added to cart'], 201);
+    }
+    public function destroy(Cart $cart)
+    {
+        if ($cart->user_id !== $this->user_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        $cart->delete();
+        return response()->json(['message' => 'Course removed from cart'], 200);
     }
 }

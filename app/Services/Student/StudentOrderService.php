@@ -20,6 +20,10 @@ class StudentOrderService
     }
     public function store(StoreRequest $request)
     {
+        $cart_items = Cart::where('user_id', $request->buyer_id)->get();
+        if ($cart_items->isEmpty()) {
+            return response()->json(['message' => 'Cart is empty'], 404);
+        }
         $order = new Order();
         $order->fill($request->all());
         $order->invoice_id = uniqid('INV-');
@@ -30,7 +34,11 @@ class StudentOrderService
         }
         $order->status = 'approved';
         $order->save();
-        $cart_items = Cart::where('user_id', $request->buyer_id)->get();
+        $this->saveEnrollments($cart_items, $order, $request->buyer_id);
+        return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
+    }
+    private function saveEnrollments($cart_items, $order, $buyer_id)
+    {
         foreach ($cart_items as $item) {
             $order_item = new OrderItem();
             $order_item->course_id = $item->course_id;
@@ -43,7 +51,7 @@ class StudentOrderService
             $course_price = $course->discount ?? $course->price;
             $order_item->price = $course_price;
             Enrollment::create([
-                'user_id' => $request->buyer_id,
+                'user_id' => $buyer_id,
                 'instructor_id' => $course->instructor_id,
                 'course_id' => $item->course_id,
                 'has_access' => true,
@@ -51,7 +59,6 @@ class StudentOrderService
             $item->delete();
             $order_item->save();
         }
-        return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
     }
     public function hasCourseInOrderItems(Course $course)
     {

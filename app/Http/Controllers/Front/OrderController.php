@@ -8,10 +8,15 @@ use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\Student\StudentOrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    private $service;
+    public function __construct(StudentOrderService $service) {
+        $this->service = $service;
+    }
     public function index()
     {
         $orders = Order::with('customer')->get();

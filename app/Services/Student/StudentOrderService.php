@@ -8,6 +8,16 @@ use App\Models\Order;
 use App\Models\OrderItem;
 class StudentOrderService
 {
+    public function index()
+    {
+        $orders = Order::with('customer')->get();
+        return response()->json($orders);
+    }
+    public function show(Order $order)
+    {
+        $my_order = Order::with(['customer', 'orderItems.course.instructor'])->find($order->id);
+        return response()->json($my_order, 200);
+    }
     public function store(StoreRequest $request)
     {
         $order = new Order();
@@ -42,5 +52,16 @@ class StudentOrderService
             $order_item->save();
         }
         return response()->json(['message' => 'Order created successfully', 'order' => $order], 201);
+    }
+    public function hasCourseInOrderItems(Course $course)
+    {
+        $order = Order::whereHas('orderItems', function ($query) use ($course) {
+            $query->where('course_id', $course->id);
+        })->first();
+        if ($order) {
+            return response()->json(['message' => 'Course is in order items', 'order' => $order], 200);
+        } else {
+            return response()->json(['message' => 'Course is not in order items', 'status' => 1], 200);
+        }
     }
 }

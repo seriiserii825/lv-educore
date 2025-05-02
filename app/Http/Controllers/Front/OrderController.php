@@ -13,8 +13,7 @@ class OrderController extends Controller
     }
     public function index()
     {
-        $orders = Order::with('customer')->get();
-        return response()->json($orders);
+        return $this->service->index();
     }
     public function store(StoreRequest $request)
     {
@@ -22,18 +21,10 @@ class OrderController extends Controller
     }
     public function show(Order $order)
     {
-        $my_order = Order::with(['customer', 'orderItems.course.instructor'])->find($order->id);
-        return response()->json($my_order, 200);
+        return $this->service->show($order);
     }
     public function hasCourseInOrderItems(Course $course)
     {
-        $order = Order::whereHas('orderItems', function ($query) use ($course) {
-            $query->where('course_id', $course->id);
-        })->first();
-        if ($order) {
-            return response()->json(['message' => 'Course is in order items', 'order' => $order], 200);
-        } else {
-            return response()->json(['message' => 'Course is not in order items', 'status' => 1], 200);
-        }
+        return $this->service->hasCourseInOrderItems($course);
     }
 }

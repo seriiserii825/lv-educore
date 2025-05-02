@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StudentOrder\StoreRequest;
 use App\Models\Cart;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\Student\StudentOrderService;
-use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -23,15 +23,8 @@ class OrderController extends Controller
         return response()->json($orders);
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $request->validate([
-            'buyer_id' => 'required|exists:users,id',
-            'total_amount' => 'required|numeric',
-            'payment_method' => 'required|string',
-            'paid_amount' => 'nullable|numeric',
-        ]);
-
         $order = new Order();
         $order->fill($request->all());
         $order->invoice_id = uniqid('INV-');
